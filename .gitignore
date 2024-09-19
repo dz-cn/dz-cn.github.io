@@ -1,0 +1,10 @@
+/node_modules/
+/public/
+/scaffolds/
+/source/
+/themes/
+/_config.butterfly.yml
+/_config.yml
+/db.json
+/package.json
+/package-lock.json
