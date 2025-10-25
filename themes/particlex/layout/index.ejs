@@ -13,8 +13,10 @@
         <span class="info">
             <div class="wrap">
                 <h1><%= config.title %></h1>
-                <h3><%= config.subtitle %></h3>
-                <h5><%= config.description %></h5>
+                <h3 class="toggle-element" data-group="1" style="display: none;"></h3>
+                <h5 class="toggle-element" data-group="1" style="display: none;"></h5>
+                <h3 class="toggle-element" data-group="2" style="display: none;"></h3>
+                <h5 class="toggle-element" data-group="2" style="display: none;"></h5>
             </div>
         </span>
     </div>
@@ -39,3 +41,133 @@
     </div>
     <% } %>
 </div>
+
+<!--
+没办法，目前不知道如何在js中获取的全局的配置信息，也就是如果放到js中，一下信息获取不到
+h3: '<%= config.subtitle %>',
+h5: '<%= config.description %>'
+-->
+<script>
+    // 存储统计数据的变量
+    let statsData = {
+        pv: '加载中...', // 默认占位文本
+        uv: '加载中...'
+    };
+
+    // 1. 提前请求不蒜子统计数据（非DOM依赖的API）
+    function fetchBusuanziData() {
+        return new Promise((resolve) => {
+            // 不蒜子API接口（获取当前页面的pv和uv）
+            const script = document.createElement('script');
+            // 回调函数名（不蒜子会调用这个函数并传入数据）
+            const callbackName = `busuanziCallback_${Date.now()}`;
+
+            // 定义回调函数，接收不蒜子返回的数据
+            window[callbackName] = (data) => {
+                console.log(data)
+                // 存储数据（data包含pv和uv字段）
+                statsData.pv = data.site_pv;
+                statsData.uv = data.site_uv;
+                resolve(); // 数据获取完成
+                // 清理临时脚本和回调
+                document.head.removeChild(script);
+                delete window[callbackName];
+            };
+
+            // 构造请求URL（使用不蒜子的计数API）
+            const url = `//busuanzi.ibruce.info/busuanzi?jsonpCallback=${callbackName}`;
+            script.src = url;
+            document.head.appendChild(script);
+
+            // 超时处理（防止请求失败）
+            setTimeout(resolve, 3000);
+        });
+    }
+
+    // 2. 等待数据请求完成后，初始化切换逻辑
+    fetchBusuanziData().then(() => {
+        // 定义要切换的两组内容（使用缓存的具体数字）
+        const contentGroups = [
+            {
+                h3: '<%= config.subtitle %>',
+                h5: '<%= config.description %>'
+            },
+            {
+                h3: `总访问量 ${statsData.pv} 次`, // 直接使用具体数字
+                h5: `总访客数 ${statsData.uv} 人次`  // 直接使用具体数字
+            }
+        ];
+
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const displayDuration = 3000;
+        const initialBlankDelay = 500;
+        let currentGroup = 1;
+
+        // 打字效果函数
+        function typeText(element, text, index = 0, onComplete) {
+            if (index === 0) {
+                element.style.display = 'block';
+            }
+            if (index < text.length) {
+                element.innerHTML = text.substring(0, index + 1);
+                setTimeout(() => typeText(element, text, index + 1, onComplete), typeSpeed);
+            } else {
+                onComplete && onComplete();
+            }
+        }
+
+        // 删除效果函数
+        function deleteText(element, callback) {
+            const currentText = element.innerHTML;
+            if (currentText.length > 0) {
+                element.innerHTML = currentText.substring(0, currentText.length - 1);
+                setTimeout(() => deleteText(element, callback), deleteSpeed);
+            } else {
+                element.style.display = 'none';
+                callback();
+            }
+        }
+
+        // 显示指定组的内容
+        function showGroup(groupIndex, onComplete) {
+            const targetH3 = document.querySelector(`.toggle-element[data-group="${groupIndex}"]`);
+            const targetH5 = document.querySelectorAll(`.toggle-element[data-group="${groupIndex}"]`)[1];
+
+            typeText(targetH3, contentGroups[groupIndex - 1].h3, 0, () => {
+                setTimeout(() => {
+                    typeText(targetH5, contentGroups[groupIndex - 1].h5, 0, onComplete);
+                }, 500);
+            });
+        }
+
+        // 隐藏指定组的内容
+        function hideGroup(groupIndex, callback) {
+            const targetH3 = document.querySelector(`.toggle-element[data-group="${groupIndex}"]`);
+            const targetH5 = document.querySelectorAll(`.toggle-element[data-group="${groupIndex}"]`)[1];
+
+            deleteText(targetH5, () => {
+                deleteText(targetH3, () => {
+                    callback();
+                });
+            });
+        }
+
+        // 切换组的主函数
+        function switchGroup() {
+            hideGroup(currentGroup, () => {
+                currentGroup = currentGroup === 1 ? 2 : 1;
+                showGroup(currentGroup, () => {
+                    setTimeout(switchGroup, displayDuration);
+                });
+            });
+        }
+
+        // 初始启动
+        setTimeout(() => {
+            showGroup(1, () => {
+                setTimeout(switchGroup, displayDuration);
+            });
+        }, initialBlankDelay);
+    });
+</script>

@@ -12,8 +12,7 @@ language: zh
 timezone: ''
 
 # URL
-## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: http://example.com # 页尾表的作者 URL
 permalink: posts/:abbrlink.html
 permalink_defaults:
 pretty_urls:
@@ -103,10 +102,10 @@ theme: particlex
 deploy:
   type: ''
 
-## 文章底部永久访问连接
-#abbrlink:
-#  alg: crc32      # Algorithm used to calc abbrlink. Support crc16(default) and crc32
-#  rep: hex        # Representation of abbrlink in URLs. Support dec(default) and hex
-#  drafts: false   # Whether to generate abbrlink for drafts. (false in default)
-#  force: false    # Enable force mode. In this mode, the plugin will ignore the cache, and calc the abbrlink for every post even it already had an abbrlink. (false in default)
-#  writeback: true # Whether to write changes to front-matters back to the actual markdown files. (true in default)
+## 文章永久访问连接
+abbrlink:
+  alg: crc32      # Algorithm used to calc abbrlink. Support crc16(default) and crc32
+  rep: hex        # Representation of abbrlink in URLs. Support dec(default) and hex
+  drafts: false   # Whether to generate abbrlink for drafts. (false in default)
+  force: false    # Enable force mode. In this mode, the plugin will ignore the cache, and calc the abbrlink for every post even it already had an abbrlink. (false in default)
+  writeback: true # Whether to write changes to front-matters back to the actual markdown files. (true in default)

@@ -1,12 +1,11 @@
 <footer id="footer">
     <div id="footer-wrap">
         <div>
-            &copy;
-            <%= theme.footer.since %> - <%= date(Date.now(), "YYYY") %> <%= config.title %>
-            <span id="footer-icon">
-                <i class="fa-solid fa-font-awesome fa-fw"></i>
-            </span>
-            &commat;<%= config.author %>
+            &copy; <%= theme.footer.since %> - <%= date(Date.now(), "YYYY") %> <%= config.title %>
+            <i class="fa-solid fa-font-awesome fa-fw"></i>
+            <a href= "<%= config.url %>">&commat;<%= config.author %></a>
+            <br>
+            总访问量 <span id="busuanzi_value_site_pv"></span> 次 | 总访客数 <span id="busuanzi_value_site_uv"></span> 人次
         </div>
         <div>
             Based on the <a href="https://hexo.io">Hexo Engine</a> &amp;
