@@ -72,7 +72,7 @@
                     return hash;
                 }
                 const colors = theme.colors.filter((color) => color !== prev);
-                let id = getStringHash(tag.name) % 192;
+                let id = getStringHash(tag.name) % colors.length;
                 prev = colors[id];
             %>
             <a href="<%- url_for(tag.path) %>" style="color: <%- colors[id] %>"><%= tag.name %></a>
