@@ -34,8 +34,17 @@
             <% page.tags.data.forEach((tag) => { %>
             <span class="tag">
                 <%
+                    function getStringHash(str) {
+                        let hash = 0;
+                        for (let i = 0; i < str.length; i++) {
+                            const charCode = str.charCodeAt(i);
+                            // 简单哈希算法（确保相同字符串哈希一致，减少冲突）
+                            hash = ((hash << 5) - hash + charCode) | 0; // 转为32位整数避免溢出
+                        }
+                        return hash;
+                    }
                     const colors = theme.colors.filter((color) => color !== prev);
-                    let id = Math.floor(Math.random() * colors.length);
+                    let id = getStringHash(tag.name) % 192;
                     prev = colors[id];
                 %>
                 <a href="<%- url_for(tag.path) %>" style="color: <%- colors[id] %>">

@@ -176,6 +176,8 @@
                 <h5 class="toggle-element" data-group="1" style="display: none;"></h5>
                 <h3 class="toggle-element" data-group="2" style="display: none;"></h3>
                 <h5 class="toggle-element" data-group="2" style="display: none;"></h5>
+                <h3 class="toggle-element" data-group="3" style="display: none;"></h3>
+                <h5 class="toggle-element" data-group="3" style="display: none;"></h5>
             </div>
         </span>
     </div>
@@ -192,50 +194,6 @@
         
 
 <div class="post">
-    <a href="/posts/55755352.html">
-        <h2 class="post-title">测试文章01</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/10/18
-        </span>
-        
-        
-        <span class="special">
-            <i class="fa-solid fa-grip-vertical fa-fw"></i>
-        </span>
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>文章缩略，支持 <code>Markdown</code> <strong>文档格式</strong></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%B5%8B%E8%AF%95/" style="color: #03a9f4">测试</a>
-        </span>
-        
-    </div>
-    <a href="/posts/55755352.html" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
     <a href="/posts/a177b36e.html">
         <h2 class="post-title">MySQL 的锁</h2>
     </a>
@@ -248,11 +206,11 @@
             2025/10/25
         </span>
         
-        
-        <span class="special">
-            <i class="fa-solid fa-grip-vertical fa-fw"></i>
-        </span>
-        
+<!--        -->
+<!--        <span class="special">-->
+<!--            <i class="fa-solid fa-grip-vertical fa-fw"></i>-->
+<!--        </span>-->
+<!--        -->
     </div>
     <div class="description">
         <div class="content" v-pre>
@@ -272,7 +230,7 @@
         
         <span class="tag">
             
-            <a href="/tags/MySQL/" style="color: #03a9f4">MySQL</a>
+            <a href="/tags/MySQL/" style="color: #b4b4ff">MySQL</a>
         </span>
         
     </div>
@@ -292,11 +250,11 @@
             2025/10/18
         </span>
         
-        
-        <span class="special">
-            <i class="fa-solid fa-grip-vertical fa-fw"></i>
-        </span>
-        
+<!--        -->
+<!--        <span class="special">-->
+<!--            <i class="fa-solid fa-grip-vertical fa-fw"></i>-->
+<!--        </span>-->
+<!--        -->
     </div>
     <div class="description">
         <div class="content" v-pre>
@@ -316,11 +274,55 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%B5%8B%E8%AF%95/" style="color: #00a596">测试</a>
+            <a href="/tags/%E6%B5%8B%E8%AF%95/" style="color: #0000ff">测试</a>
         </span>
         
     </div>
     <a href="/posts/cc7c02e8.html" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/posts/55755352.html">
+        <h2 class="post-title">测试文章01</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/10/18
+        </span>
+        
+<!--        -->
+<!--        <span class="special">-->
+<!--            <i class="fa-solid fa-grip-vertical fa-fw"></i>-->
+<!--        </span>-->
+<!--        -->
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>文章缩略，支持 <code>Markdown</code> <strong>文档格式</strong></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%B5%8B%E8%AF%95/" style="color: #0000ff">测试</a>
+        </span>
+        
+    </div>
+    <a href="/posts/55755352.html" class="go-post">阅读全文</a>
 </div>
 
 
@@ -407,7 +409,6 @@ h5: '这是总的 description'
 
             // 定义回调函数，接收不蒜子返回的数据
             window[callbackName] = (data) => {
-                console.log(data)
                 // 存储数据（data包含pv和uv字段）
                 statsData.pv = data.site_pv;
                 statsData.uv = data.site_uv;
@@ -434,12 +435,39 @@ h5: '这是总的 description'
             {
                 h3: '这是总的 subtitle',
                 h5: '这是总的 description'
-            },
-            {
-                h3: `总访问量 ${statsData.pv} 次`, // 直接使用具体数字
-                h5: `总访客数 ${statsData.uv} 人次`  // 直接使用具体数字
             }
         ];
+
+        // 调用一言API
+        fetch('https://v1.hitokoto.cn/')
+            .then(response => {
+                // 先判断请求是否成功（HTTP状态码200-299）
+                if (!response.ok) {
+                    throw new Error(`请求失败：${response.status}`);
+                }
+                // 解析JSON格式的响应数据
+                return response.json();
+            })
+            .then(data => {
+                // 成功获取数据，可打印或使用
+                contentGroups.push(
+                    {
+                        h3: data.hitokoto,
+                        h5: data.from == null ? '' : `-- ${data.from}`
+                    }
+                );
+                contentGroups.push(
+                    {
+                        h3: `总访问量 ${statsData.pv} 次`,
+                        h5: `总访客数 ${statsData.uv} 人次`
+                    }
+                );
+
+            })
+            .catch(error => {
+                // 捕获网络错误或请求失败
+                console.error('获取一言失败：', error.message);
+            });
 
         const typeSpeed = 100;
         const deleteSpeed = 50;
@@ -499,7 +527,7 @@ h5: '这是总的 description'
         // 切换组的主函数
         function switchGroup() {
             hideGroup(currentGroup, () => {
-                currentGroup = currentGroup === 1 ? 2 : 1;
+                currentGroup = currentGroup++ % contentGroups.length + 1;
                 showGroup(currentGroup, () => {
                     setTimeout(switchGroup, displayDuration);
                 });

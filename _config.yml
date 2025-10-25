@@ -9,7 +9,7 @@ description: '这是总的 description'
 keywords:
 author: dz.cn
 language: zh
-timezone: ''
+timezone: 'Asia/Shanghai'
 
 # URL
 url: http://example.com # 页尾表的作者 URL

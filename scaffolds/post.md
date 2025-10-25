@@ -5,6 +5,7 @@ title: {{ title }}
 date: {{ date }}
 # 文章的标签
 tags:
+  - default
 # 文章的缩略详解
 description: |
   文章缩略，支持 `Markdown` **文档格式**
