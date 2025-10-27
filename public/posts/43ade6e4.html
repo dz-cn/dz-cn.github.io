@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head><!-- hexo injector head_begin start --><script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script><!-- hexo injector head_begin end -->
+    <meta charset="utf-8" />
+    <title>HashMap集合 | DZ博客</title>
+    <meta name="author" content="dz.cn" />
+    <meta name="description" content="稳-静-思" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.png" />
+
+    <!--引入对应内容的js文件-->
+    <link rel="preconnect" href="https://s4.zstatic.net"/>
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.cn"/>
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin/>
+<link
+        rel="stylesheet"
+        href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+    <script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <script src="/js/lib/highlight.js"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+    <script src="/js/lib/math.js"></script>
+
+
+    <script src="/js/lib/preview.js"></script>
+
+
+
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/main.css"/>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta name="generator" content="Hexo 8.0.0"></head>
+<body>
+    <div id="layout">
+        <!--加载动画-->
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>加载中...</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>DZ博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;主页</span>
+        </a>
+        
+        <a href="/echarts">
+            <i class="fa-solid fa-square-poll-horizontal fa-fw"></i>
+            <span>&ensp;热力图</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;文章</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;类型</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;标签</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;DZ博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">主页</div>
+                    </div>
+                </a>
+                
+                <a href="/echarts">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-square-poll-horizontal fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">热力图</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">文章</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">类型</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">标签</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+
+        <!--主体-->
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <!--当前要渲染的内容-->
+            <div class="article">
+    <!--文章标题-->
+    <div>
+        <h1>HashMap集合</h1>
+    </div>
+
+    <!--每篇文章开头的信息-->
+    <div class="info">
+        <!--日期-->
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/10/27
+        </span>
+        <!--判断是否有分类-->
+        
+        <span class="category">
+            
+            <a href="/categories/Java-%E5%9F%BA%E7%A1%80%E7%AF%87/" style="color: #4dd0e1">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Java 基础篇
+            </a>
+        </span>
+        
+        <!--判断是否有标签-->
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/HashMap/" style="color: #d4a066">
+                    HashMap
+                </a>
+            </span>
+            
+        </span>
+        
+
+        <!--本文的阅读量-->
+        <span style="margin-right: 15px">
+            <span class="icon">
+                <i class="fa-solid fa-eye"></i>
+            </span>
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+
+        <br>
+        <!--本文的字数统计-->
+        <span style="margin-right: 15px;">
+            <span class="icon">
+                <i class="fa-solid fa-pen"></i>
+            </span>
+            <span>5024 字 | 2 代码块</span>
+        </span>
+    </div>
+
+    <!--加密配置，如果启用加密，这执行加密逻辑-->
+    
+    <div class="content" v-pre>
+        <h3 id="1、HashMap-的底层数据结构是什么"><a href="#1、HashMap-的底层数据结构是什么" class="headerlink" title="1、HashMap 的底层数据结构是什么?"></a>1、HashMap 的底层数据结构是什么?</h3><p>​      在JDK 8 之前，主要通过数组 + 链表的方式实现。在JDK 8之后，主要通过数组 + 链表 + 红黑树的方式实现。核心变量为Node 类型的数组 table 变量。由 transient 修饰，并重写了readObject 和 writeObject 方法实现序列化相关操作。</p>
+<h3 id="2、HashMap-是如何解决哈希冲突的"><a href="#2、HashMap-是如何解决哈希冲突的" class="headerlink" title="2、HashMap 是如何解决哈希冲突的?"></a>2、HashMap 是如何解决哈希冲突的?</h3><p>​      由于通过键哈希值的运算来确定元素在table中的位置，当出现不同键的哈希值相同时，会产生哈希冲突，主要通过链地址法来解决。也就是在数组对应的位置形成链表，而对于链表结点的插入采用的是尾插法，防止在多线程模式下出现循环链表的问题。</p>
+<h3 id="3、HashMap-的-put-方法的过程"><a href="#3、HashMap-的-put-方法的过程" class="headerlink" title="3、HashMap 的 put 方法的过程"></a>3、HashMap 的 put 方法的过程</h3><ul>
+<li><p><strong>首先</strong>，是计算hash值，即：通过将键的hash值的低16异或上高16位。</p>
+</li>
+<li><p><strong>其次</strong>，计算该元素在哈希桶中的位置，即：将数组的长度 - 1 &amp; 上二次哈希值作为该元素在数组中的下标。</p>
+</li>
+<li><p><strong>然后</strong>：判断下标位置的元素情况，即：</p>
+<ul>
+<li><p>如果当前位置没有元素，则直接创建node对象并存储hash值，防止二次计算，然后将当前元素储存在当前下标的位置；</p>
+</li>
+<li><p>如果当前位置有元素，就以hash值、key的引用地址，key的equales方法的比较顺序来判断key是否相同；</p>
+<ul>
+<li><p>如果有一个成立，则表示key值相同，即触发替换效果，将原位置的元素的value值替换为当前元素的value 值。</p>
+</li>
+<li><p>如果判断 key 不相同，（省略：就先判断是否为树结构，如果是）继续按照之前的比较顺序遍历整个链表。</p>
+<ul>
+<li><p>当发现键相同时，也是执行替换操作。</p>
+</li>
+<li><p>当遍历到最后一个时，回在最后一个结点的尾部创建一个新的Node结点。（省略：并判断当前位置的链表的长度是否大于8，当大于 8 时，则尝试树形化，在树形化的内部，会判断哈希桶的长度是否大于64，如果不是，则直接扩容，否则进行树形化）</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>最后</strong>：都会检查size是否超过扩容阈值，如果超过，则进行扩容。而put方法的返回值是当发成替换时，返回的是旧值，发生插入时，返回的是原位置的值，也就是null。</p>
+</li>
+<li><p>源码展示：</p>
+<pre><code class="language-java">/*添加元素源码*/
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,boolean evict) {
+        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+        if ((tab = table) == null || (n = tab.length) == 0) //判断是否需要扩容
+            n = (tab = resize()).length; //执行扩容
+        if ((p = tab[i = (n - 1) &amp; hash]) == null)  //判断要插入的位置是否存在元素
+            tab[i] = newNode(hash, key, value, null); //如果不存在，直在该数组的该位置上添加
+        else { //该位置上存在元素，判断该元素的键是否与要插入的元素的键相同
+            Node&lt;K,V&gt; e; K k;
+            //1、先比较hash值，如果hash不相同，则键一定不相同
+            //2、再比较键
+                //1、先比较键的地址
+                //2、最后在比较键的内容
+            //最后得出，键是否相同
+            if (p.hash == hash 
+                &amp;&amp; ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))
+                e = p; //如果键相同
+            else if (p instanceof TreeNode) //如果键不相同、判断是否为树形结构
+                e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);//是树结构
+            else {  //如果键不相同、不为树形结构
+                for (int binCount = 0; ; ++binCount) {
+                    if ((e = p.next) == null) { //判断下一个元素是否为空
+                        p.next = newNode(hash, key, value, null); //为空，尾插法
+                        if (binCount &gt;= TREEIFY_THRESHOLD - 1) // 判断是否需要树形化
+                            treeifyBin(tab, hash); //执行树形化
+                        break;
+                    }
+                    //不为空，判断该位置上的链表的键是否相同，相同直接跳出循环做修改操作
+                    if (e.hash == hash &amp;&amp;
+                        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                        break; 
+                    p = e; //给 p 更新，继续比较
+                }
+            }
+            if (e != null) { // 键相同、执行修改操作,如果是新增操作，e必为null
+                V oldValue = e.value; //获取到该位置上的值
+                if (!onlyIfAbsent || oldValue == null)
+                    e.value = value; //将该位置上的值替换为新的值
+                afterNodeAccess(e);  
+                return oldValue; //返回旧值
+            }
+        }
+        ++modCount;
+        if (++size &gt; threshold) //元素个数记录+1，判断是否需要扩容
+            resize();  //执行扩容
+        afterNodeInsertion(evict);
+        return null;
+    }
+</code></pre>
+</li>
+</ul>
+<h3 id="4、HashMap的扩容机制？"><a href="#4、HashMap的扩容机制？" class="headerlink" title="4、HashMap的扩容机制？"></a>4、HashMap的扩容机制？</h3><ul>
+<li><p>首先，是当哈希桶没有初始化或者哈希桶的长度为 0 时，进行初始化扩容。</p>
+<ul>
+<li>即：设置默认的哈希桶的长度为16，扩容阈值是 12 由 数组长度×负载因子，负载因子默认是0.75。然后创建长度为16的node结点对象并赋值给哈希桶即可。</li>
+</ul>
+</li>
+<li><p>然后，是当哈希桶中的元素个数大于了扩容阈值时会触发扩容机制。</p>
+<ul>
+<li>首先，确定新数组的长度以及扩容阈值：新数组的长度为原来的<strong>2倍</strong>，扩容阈值也变为原来的<strong>2倍</strong></li>
+<li>然后，循环遍历原数组中所有非空元素<ul>
+<li>如果该元素没有形成链表，则直接用元素的hash值 &amp; 上新数组的长度 - 1，作为在新数组中的位置。（这也就是哈希桶的长度为什么是 2 的幂次方，因为计算元素在哈希桶中的位置非常方便）</li>
+<li>如果改元素的 next 指针不为空，则进行结点的迁移。<ul>
+<li>1）对于链表来说<ul>
+<li>首先定义高位链表和低位链表。</li>
+<li>然后，循环遍历链表上的所有结点。对于链表上的结点按照哈希值与原数组的长度做 &amp; 运算的结果是否为 0 ，分为地位链表和高位链表，进而重新分配地位链表和高位链表在数组中的位置来使元素分布均匀。具体的过程以高位链表为例：先判断高位链表的尾结点是否为空，如果为空则为头节点赋初始值，反之则为尾结点的next指针赋值，最后都要将当前遍历的结点赋值给尾结点。最后将低位链表插入到新哈希桶中与原下标相同的位置，而高位链表则插入到新哈希桶中原下标 + 原数组长度的位置。</li>
+</ul>
+</li>
+<li>2）对于红黑树，则是调用树分裂的方法，先将树分为两个链表，对于链表中元素个数小于等于 6 的，直接转换为链表，如果大于6，则进行树形化。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>源码展示：</p>
+<pre><code class="language-java">/*扩容源码*/
+final Node&lt;K,V&gt;[] resize() {
+        Node&lt;K,V&gt;[] oldTab = table; //将数组赋值给临时变量
+        int oldCap = (oldTab == null) ? 0 : oldTab.length; //获取数组的长度
+        int oldThr = threshold; //获取扩容的临界点
+        int newCap, newThr = 0; //定义新的长度和扩容的临界点
+        if (oldCap &gt; 0) { //判断数组长度是否大于 0，更新临界点和数组长度
+            if (oldCap &gt;= MAXIMUM_CAPACITY) { //判断是否超出最大容量
+                threshold = Integer.MAX_VALUE;
+                return oldTab; //如果超出了，就不扩容，直接返回
+            }
+            else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+                     oldCap &gt;= DEFAULT_INITIAL_CAPACITY) //将新的长度为原长度的 2 倍
+                newThr = oldThr &lt;&lt; 1; // 新的临界点为原来临界点的 2 倍
+        }
+        else if (oldThr &gt; 0) // 初始容量置于阈值，用于应对自定义初始值
+            newCap = oldThr;
+        else {               // 零初始阈值表示使用默认值，用于处理默认情况
+            newCap = DEFAULT_INITIAL_CAPACITY; //默认长度为 16
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+            //临界值为默认长度*加载因子
+        }
+        if (newThr == 0) { //用于应对自定义负载因子
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr; //更新临界值
+        @SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+        Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap]; //创建新的数组
+        table = newTab; //将原数组指向该新的长度的数组
+        if (oldTab != null) { //用于应对第一次添加的情况
+            //源码赋值hashMap的逻辑
+            for (int j = 0; j &lt; oldCap; ++j) {
+                Node&lt;K,V&gt; e;  //创建新的节点
+                if ((e = oldTab[j]) != null) { //判断旧数组上该位置的节点是否为空
+                    oldTab[j] = null;
+                    if (e.next == null) //如果下一个节点为空，即：该位置上就一个元素
+                        newTab[e.hash &amp; (newCap - 1)] = e; //计算在新数组中的位置并放入
+                    else if (e instanceof TreeNode) //如果下一个有元素，判断是否为树形
+                        ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
+                    else { // 是链表
+                        Node&lt;K,V&gt; loHead = null, loTail = null;
+                        Node&lt;K,V&gt; hiHead = null, hiTail = null;
+                        Node&lt;K,V&gt; next;
+                        do {
+                            next = e.next;
+                            if ((e.hash &amp; oldCap) == 0) { 
+                                //判断是否需要移动，因为在计算位置时，e.hash &amp; (oldCap-1)
+                                //在增加为容量后，新的容量是2的倍数，因此，之后的位置是原来的二进制
+                                //加 1，原 1111 先 10000 因此，只需要比较最高位的 1 是否影向
+                                //而oldCap是2的倍数，因此只有一个1其余是0,16 = 0000 1000
+                                //因此，如果取与不为0，说名根据hsah值计算的位置与原来的位置不一样
+                                //需要移动，同样，只要是需要移动的，要移动的位置都一样，因为都是同一
+                                //个高位二进制为 1
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        if (loTail != null) {  //将不需要移动的节点直接放入该数组下
+                            loTail.next = null;
+                            newTab[j] = loHead;
+                        }
+                        if (hiTail != null) { //将需要移动的链表放入新的数组的空间下
+                            hiTail.next = null;
+                            //由于需要移动，因此高位二进制一定是 1，因此用hash值于新数组计算后
+                            //位置是确定的，增加了oldCap的长度，故，这里不用再次计算为位置，直接用
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }
+</code></pre>
+</li>
+</ul>
+<h3 id="5、为什么负载因子是0-75？"><a href="#5、为什么负载因子是0-75？" class="headerlink" title="5、为什么负载因子是0.75？"></a>5、为什么负载因子是0.75？</h3><p>​     因为是在时间和空间之间，经过大量计算和实验权衡后的一个最优值。在减少哈希冲突的同时，避免频繁的扩容。</p>
+<h3 id="6、HashMap-是线程安全的吗？"><a href="#6、HashMap-是线程安全的吗？" class="headerlink" title="6、HashMap 是线程安全的吗？"></a>6、HashMap 是线程安全的吗？</h3><p>​      不是，可以用并发工具包的SynchroizedMap包装hashMap，或者直接使用CurrentHashMap。</p>
+<h3 id="7、HashMapJDK8-和-JDK-7的区别"><a href="#7、HashMapJDK8-和-JDK-7的区别" class="headerlink" title="7、HashMapJDK8 和 JDK 7的区别"></a>7、HashMapJDK8 和 JDK 7的区别</h3><p>​      数据结构：从数组 + 链表 &#x3D;&#x3D;》数组 + 链表 + 红黑树</p>
+<p>​      插入方式：头插法 &#x3D;&#x3D;》尾插法</p>
+<p>​      迁移原理：重新计算hash &#x3D;&#x3D;》按照高低位拆分</p>
+<h3 id="8、HashMap的内存泄漏？"><a href="#8、HashMap的内存泄漏？" class="headerlink" title="8、HashMap的内存泄漏？"></a>8、HashMap的内存泄漏？</h3><p>​      若key对象重写了equels()方法，但是没有重写hashCode()方法，可能无法正确定位元素，造成内存占用不能释放。例如：对于放入两个键相同的对象，此时应表现为修改，但是由于没有重写hashCode()方法，导致hash值不同，而判断是先判断hash值，再判断equals()，因此此时表现为插入元素，而当利用键来删除其中的一个元素时，另一个元素则会被留下（因为哈希值不同），造成内存泄漏。</p>
+<h3 id="9、key-的值可以为null吗？"><a href="#9、key-的值可以为null吗？" class="headerlink" title="9、key 的值可以为null吗？"></a>9、key 的值可以为null吗？</h3><p>​      可以，null 键的hash固定为 0，会被放入列表的第一个位置。</p>
+
+    </div>
+    
+
+    <!--如果启用文章的评论，显示评论逻辑-->
+    
+    
+    
+    
+    
+    
+</div>
+
+
+            <!--页脚内容-->
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy; 2025 - 2025 DZ博客
+            <i class="fa-solid fa-font-awesome fa-fw"></i>
+            <a href= "http://example.com">&commat;dz.cn</a>
+            <br>
+            总访问量 <span id="busuanzi_value_site_pv"></span> 次 | 总访客数 <span id="busuanzi_value_site_uv"></span> 人次
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+        </div>
+
+        <!--图片预览-->
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+
+    <script src="/js/main.js"></script>
+    <!--评论的显示-->
+    
+    
+
+
+
+
+    
+</body>
+</html>

@@ -171,14 +171,14 @@
         
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                const heatmapChartDom = document.getElementById('heatmapChart-1');
+                const heatmapChartDom = document.getElementById('heatmapChart-0');
                 if (heatmapChartDom) {
                     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                     const backgroundColor = isDarkMode ? '#333' : 'transparent';
                     let heatmapChart = echarts.init(heatmapChartDom, isDarkMode ? 'dark' : 'light');
                     const cellSize = [16, 16];
 
-                    const groupedData = {"2025":[["2025-10-25",1],["2025-10-18",2]]};
+                    const groupedData = {"2025":[["2025-10-27",3],["2025-10-18",2]]};
                     const years = Object.keys(groupedData).reverse();
                     const initYear = '2025' || years[0];
 
@@ -326,7 +326,7 @@
         </div>
     
             <!-- Heatmap Chart -->
-            <div id="heatmapChart-1" style="width: 100%; height: 200px; overflow-x: auto; overflow-y: hidden;"></div>
+            <div id="heatmapChart-0" style="width: 100%; height: 200px; overflow-x: auto; overflow-y: hidden;"></div>
             <!-- Footer -->
             
         </div>
