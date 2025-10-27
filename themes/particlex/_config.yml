@@ -17,18 +17,26 @@ loading: /images/loading.gif
 
 # Optional colors for category and tag
 colors:
-    - "#ffa2c4"
-    - "#00bcd4"
-    - "#03a9f4"
-    - "#00a596"
-    - "#4dd0e1"
-    - "#0288d1"
-    - "#26a69a"
-    - "#81d4fa"
-    - "#0097a7"
-    - "#56c8d8"
-    - "#138808"
-    - "#006064"
+  - "#c46e6e"
+  - "#03a9f4"
+  - "#d4a066"
+  - "#00bcd4"
+  - "#8e7cc3"
+  - "#26a69a"
+  - "#6b8e23"
+  - "#ffa2c4"
+  - "#a0522d"
+  - "#4dd0e1"
+  - "#9370db"
+  - "#138808"
+  - "#cd853f"
+  - "#0097a7"
+  - "#98fb98"
+  - "#006064"
+  - "#d8bfd8"
+  - "#0288d1"
+  - "#deb887"
+  - "#56c8d8"
 
 # ParticleX theme icon is adopts the Font Awesome 6
 # https://fontawesome.com

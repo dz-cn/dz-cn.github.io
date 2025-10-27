@@ -10,7 +10,7 @@
                     // 简单哈希算法（确保相同字符串哈希一致，减少冲突）
                     hash = ((hash << 5) - hash + charCode) | 0; // 转为32位整数避免溢出
                 }
-                return hash;
+                return hash < 0 ? -hash : hash;
             }
             const colors = theme.colors.filter((color) => color);
             let id = getStringHash(tag.name) % colors.length;
@@ -49,7 +49,7 @@
                                 // 简单哈希算法（确保相同字符串哈希一致，减少冲突）
                                 hash = ((hash << 5) - hash + charCode) | 0; // 转为32位整数避免溢出
                             }
-                            return hash;
+                            return hash < 0 ? -hash : hash;
                         }
                         const colors = theme.colors.filter((color) => color);
                         let id = getStringHash(post.categories.data[0].name) % colors.length;
@@ -78,7 +78,7 @@
                                     // 简单哈希算法（确保相同字符串哈希一致，减少冲突）
                                     hash = ((hash << 5) - hash + charCode) | 0; // 转为32位整数避免溢出
                                 }
-                                return hash;
+                                return hash < 0 ? -hash : hash;
                             }
                             const colors = theme.colors.filter((color) => color);
                             let id = getStringHash(tag.name) % colors.length;
