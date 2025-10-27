@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>测试文章02 | 独酌的博客</title>
+    <meta name="author" content="dz.cn" />
+    <meta name="description" content="这是总的 description" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+
+    <!--引入对应内容的js文件-->
+    <link rel="preconnect" href="https://s4.zstatic.net"/>
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.cn"/>
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin/>
+<link
+        rel="stylesheet"
+        href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+    <script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <script src="/js/lib/highlight.js"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+    <script src="/js/lib/math.js"></script>
+
+
+    <script src="/js/lib/preview.js"></script>
+
+
+
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/main.css"/>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta name="generator" content="Hexo 8.0.0"></head>
+<body>
+    <div id="layout">
+        <!--加载动画-->
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>加载中...</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>独酌的博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;主页</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;文章</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;类型</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;标签</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;独酌的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">主页</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">文章</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">类型</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">标签</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+
+        <!--主体-->
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <!--当前要渲染的内容-->
+            <div class="article">
+    <!--文章标题-->
+    <div>
+        <h1>测试文章02</h1>
+    </div>
+
+    <!--每篇文章开头的信息-->
+    <div class="info">
+        <!--日期-->
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/10/18
+        </span>
+        <!--判断是否有分类-->
+        
+        <span class="category">
+            
+            <a href="/categories/%E6%B5%8B%E8%AF%95/" style="color: #03a9f4">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                测试
+            </a>
+        </span>
+        
+        <!--判断是否有标签-->
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B5%8B%E8%AF%95/" style="color: #03a9f4">
+                    测试
+                </a>
+            </span>
+            
+        </span>
+        
+
+        <!--本文的阅读量-->
+        <span style="margin-right: 15px">
+            <span class="icon">
+                <i class="fa-solid fa-eye"></i>
+            </span>
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+
+        <br>
+        <!--本文的字数统计-->
+        <span style="margin-right: 15px;">
+            <span class="icon">
+                <i class="fa-solid fa-pen"></i>
+            </span>
+            <span>2135 字 | 0 代码块</span>
+        </span>
+    </div>
+
+    <!--加密配置，如果启用加密，这执行加密逻辑-->
+    
+    <div class="content" v-pre>
+        <h2 id="一、String-的特性"><a href="#一、String-的特性" class="headerlink" title="一、String 的特性"></a>一、String 的特性</h2><h3 id="1、String-为什么是不可变的？"><a href="#1、String-为什么是不可变的？" class="headerlink" title="1、String 为什么是不可变的？"></a>1、String 为什么是不可变的？</h3><h5 id="1）原因："><a href="#1）原因：" class="headerlink" title="1）原因："></a>1）原因：</h5><p>① <strong>安全性</strong>：String 类常用于存储敏感信息，如密码，路径等，如果它是可变的，攻击者可能通过修改字符串内容来绕过安全检查。同时Java的类加载器在加载类时会使用String来存储类名和包名，如果String是可变的，攻击者可能加载恶意的类破坏系统。Java String 类的不可变性，确保了这些关键字符串在创建并传递后，其值绝对无法被任何代码（包括自身）所改变，从根本上杜绝了被篡改的风险。是系统安全性的基石。</p>
+<p>② <strong>字符串常量池依赖不可变性</strong>：String 类是程序中最常用的，同时存在大量重复字符串，为了解决大量重复的问题，引入了字符串常量池，当创建字符串时，JVM 会优先从池中找，没有再创建，而这个优化完全依赖String的不可变性，因为常量池中的一个对象可能被多次引用，如果其中的任何一个引用能修改对象的值，那末就会导致所有共享该对象的引用全部出错。</p>
+<p>③ 在<strong>多线程</strong>模式下，可以自由传递、共享 String，不需要任何同步机制，简化了开发。</p>
+<p>④ 由于 String 的不可变性，因此 String 对象的hash值只用计算一次，后续直接从缓存中读取，提高了集合的性能。</p>
+<h5 id="2）实现方法："><a href="#2）实现方法：" class="headerlink" title="2）实现方法："></a>2）实现方法：</h5><p>​      <code>String</code> 类的核心参数为 <code>value</code> 数组，在<code>JDK 9</code> 之后，使用 <code>byte[]</code>  代替 <code>char[]</code> 。<code>value</code> 值由<code> final</code> 关键字修饰，保证数据引用的不变性，用 <code>private</code>修饰，保证外部无法直接修改，同时 <code>String</code> 类由 <code>final</code> 修饰，保证不会被继承，防止子类的修改。在 <code>JDK 9</code> 版本时，还引用了<code>Java</code> 的内部注解<code>@Stable</code>，修饰 <code>value</code> ，用于提示 <code>JVM</code> ，这是一个稳定的字段，一旦赋值，基本不会改变，是运行时的稳定承诺。当访问一个普通字段时，因可能被其他线程修改，理论上需每次从内存加载（但实际受 CPU 缓存优化影响，可能读取旧值）；但是由<code>@Stable</code> 注解修饰后，在高频访问时，可能在读取后，就将值存储到一个寄存器中，后续直接从寄存器中取值即可。同时，在编译时可能直接把这个值当作常量，将其内敛到使用它的地方，也被称为 常量折叠 提升运行速度。注意：仍可以用反射调用修改，但是开发者往往不被允许。</p>
+<h3 id="2、String、StirngBuffer、StirngBuilder-的区别？"><a href="#2、String、StirngBuffer、StirngBuilder-的区别？" class="headerlink" title="2、String、StirngBuffer、StirngBuilder 的区别？"></a>2、String、StirngBuffer、StirngBuilder 的区别？</h3><h5 id="1）不可变性："><a href="#1）不可变性：" class="headerlink" title="1）不可变性："></a>1）不可变性：</h5><p>​      String 是不可变的，任何操作都会产生新的对象，原字符串不做改变。StringBuilder 和 StringBuffer 都是可变的，都是直接在原对象上修改，避免创建新的对象。具体是StringBuilder 和 StringBuffer 都继承AbstractStringBuilder抽象类，其字符都是存储在 value 中，没有使用 final 修饰，当修改时，若 value 容量不够，则会将 value 数组进行扩容，之后，将新串复制到扩容后的数组中。因此只是替换了value数组，原StringBuilder 和 StringBuffer 对象的引用没有改变。</p>
+<h5 id="2）线程安全性："><a href="#2）线程安全性：" class="headerlink" title="2）线程安全性："></a>2）线程安全性：</h5><p>​      String 由不可变性，天然就是线程安全的。StringBuilder 是线程不安全的，多线程模式下可能会导致数据不一致问题。StringBuffer 是线程安全的，所有的方法都是用 Synchorized 修饰。</p>
+<h5 id="3）性能（大致）："><a href="#3）性能（大致）：" class="headerlink" title="3）性能（大致）："></a>3）性能（大致）：</h5><p>​      String（反复创建对象） &lt; StringBuffer（多线程下的加锁解锁） &lt; StringBuilder （单线程下性能高）</p>
+<h3 id="3、字符串常量池？"><a href="#3、字符串常量池？" class="headerlink" title="3、字符串常量池？"></a>3、字符串常量池？</h3><h5 id="1）存储位置："><a href="#1）存储位置：" class="headerlink" title="1）存储位置："></a>1）存储位置：</h5><p>​      在 JDK 7 之前，字符串常量池位于方法区的永久代中，在JDK 7 之后，字符串常量池也被移动至堆内。</p>
+<h5 id="2）存储内容："><a href="#2）存储内容：" class="headerlink" title="2）存储内容："></a>2）存储内容：</h5><p>​      在 JDK 7 之前，存储的是字符串本身，在移动到堆后，存储的是字符串在堆内存上的引用。对于没有引用的对象，可被垃圾回收器回收，防止内存泄漏。</p>
+<h5 id="3）使用方法："><a href="#3）使用方法：" class="headerlink" title="3）使用方法："></a>3）使用方法：</h5><p>​      String s1 &#x3D; “Hello” ，则会自动入池，并通过池中的引用指向堆中的“Hello”，而String s2 &#x3D; new String(“Hello”) ,则是直接在堆内存中创建了一个新的对象，不会进入字符串常量池中。但是可以使用 s2.intern() 方法，将字符串手动添加到常量池中，并返回引用。</p>
+<h5 id="4）数据结构："><a href="#4）数据结构：" class="headerlink" title="4）数据结构："></a>4）数据结构：</h5><p>​      字符串常量池是通过基于Hash表的StringTable实现，JDK 7 之前，固定大小，之后，可指定大小， JDK 9 时，将char[] 改为 byte[]。</p>
+<h3 id="4、JDK-9-为什么将Stirng的char-改为byte-？"><a href="#4、JDK-9-为什么将Stirng的char-改为byte-？" class="headerlink" title="4、JDK 9 为什么将Stirng的char[]改为byte[]？"></a>4、JDK 9 为什么将Stirng的char[]改为byte[]？</h3><h5 id="1）内存的优化："><a href="#1）内存的优化：" class="headerlink" title="1）内存的优化："></a>1）内存的优化：</h5><p>​      用char数组时，一个char 占用 2 个字节，实际中，英文，数字，特殊字符占使用的大多数，且是需要 1 个字节。对于byte数组，字符，英文，数字等，都只占用 1 个字节，中文占用 2 个字。例如，对于 “Hello” ，char 数组存需要 5 * 2 &#x3D; 10B，对于byte数组只需要 5B，节省了近50%的空间。</p>
+<h5 id="2）自适应编码"><a href="#2）自适应编码" class="headerlink" title="2）自适应编码"></a>2）自适应编码</h5><p>​      根据不同的字符串使用不同的编码。当仅包含 1 个字节的字符时，String 中的coder标志位为 0 ，表示使用单字节编码字符集，当字符串中存在 2 个字节的字符时，String 中的coder标志位为 1，表示采用双字节编码字符集，同时，当单字节字符串拼接上双字节字符串时，会将coder升级为1，表示采用双字节编码字符集。</p>
+<h3 id="5、Substring-的优化？"><a href="#5、Substring-的优化？" class="headerlink" title="5、Substring() 的优化？"></a>5、Substring() 的优化？</h3><p>​      substring：在JDK 6 以及之前，时复用原数组，即使只是用一小部分呢，但是要保留整个字符串，导致原字符串无法被GC，在JDK 7 之后，则是会创建一个新的字符串返回，原字符串可以被GC。</p>
+
+    </div>
+    
+
+    <!--如果启用文章的评论，显示评论逻辑-->
+    
+    
+    
+    
+    
+    
+</div>
+
+
+            <!--页脚内容-->
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy; 2025 - 2025 独酌的博客
+            <i class="fa-solid fa-font-awesome fa-fw"></i>
+            <a href= "http://example.com">&commat;dz.cn</a>
+            <br>
+            总访问量 <span id="busuanzi_value_site_pv"></span> 次 | 总访客数 <span id="busuanzi_value_site_uv"></span> 人次
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+        </div>
+
+        <!--图片预览-->
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+
+    <script src="/js/main.js"></script>
+    <!--评论的显示-->
+    
+    
+
+
+
+
+    
+</body>
+</html>
