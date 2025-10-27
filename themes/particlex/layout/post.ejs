@@ -16,7 +16,20 @@
         <!--判断是否有分类-->
         <% if (page.categories && page.categories.data.length !== 0) { %>
         <span class="category">
-            <a href="<%- url_for(page.categories.data[0].path) %>">
+            <%
+                function getStringHash(str) {
+                    let hash = 0;
+                    for (let i = 0; i < str.length; i++) {
+                        const charCode = str.charCodeAt(i);
+                        // 简单哈希算法（确保相同字符串哈希一致，减少冲突）
+                        hash = ((hash << 5) - hash + charCode) | 0; // 转为32位整数避免溢出
+                    }
+                    return hash;
+                }
+                const colors = theme.colors.filter((color) => color);
+                let id = getStringHash(page.categories.data[0].name) % colors.length;
+            %>
+            <a href="<%- url_for(page.categories.data[0].path) %>" style="color: <%- colors[id]%>">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
@@ -30,7 +43,6 @@
             <span class="icon">
                 <i class="fa-solid fa-tags fa-fw"></i>
             </span>
-            <% let prev; %>
             <% page.tags.data.forEach((tag) => { %>
             <span class="tag">
                 <%
@@ -43,9 +55,8 @@
                         }
                         return hash;
                     }
-                    const colors = theme.colors.filter((color) => color !== prev);
+                    const colors = theme.colors.filter((color) => color);
                     let id = getStringHash(tag.name) % colors.length;
-                    prev = colors[id];
                 %>
                 <a href="<%- url_for(tag.path) %>" style="color: <%- colors[id] %>">
                     <%= tag.name %>
@@ -55,14 +66,6 @@
         </span>
         <% } %>
 
-        <!--本文的字数统计-->
-        <span style="margin-right: 15px">
-            <span class="icon">
-                <i class="fa-solid fa-pen"></i>
-            </span>
-            <span><%= page.charCount %> 字 | <%= page.cbCount %> 代码块</span>
-        </span>
-
         <!--本文的阅读量-->
         <span style="margin-right: 15px">
             <span class="icon">
@@ -71,6 +74,15 @@
             <span id="busuanzi_container_page_pv">
                 <span id="busuanzi_value_page_pv"></span>
             </span>
+        </span>
+
+        <br>
+        <!--本文的字数统计-->
+        <span style="margin-right: 15px;">
+            <span class="icon">
+                <i class="fa-solid fa-pen"></i>
+            </span>
+            <span><%= page.charCount %> 字 | <%= page.cbCount %> 代码块</span>
         </span>
     </div>
 

@@ -1,10 +1,12 @@
 <%
-    let type = "post";
+    let type;
     if (is_home()) type = "index";
-    if (is_post() || is_page()) type = "post";
+    if (is_post() || is_page() || page.type === "post") type = "post";
     if (is_category() || page.type === "categories") type = "categories";
     if (is_tag() || page.type === "tags") type = "tags";
     if (is_archive()) type = "archives";
+    if (page.type === "custom") type = "custom";
+
     let title = page.title + " | " + config.title;
     if (is_home()) title = config.title;
     if (is_post() || is_page()) title = page.title + " | " + config.title;
@@ -25,24 +27,34 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
     <link rel="icon" href="<%- url_for(theme.avatar) %>" />
+
+    <!--引入对应内容的js文件-->
     <%- partial("import", { type }) %>
 </head>
 <body>
     <div id="layout">
+        <!--加载动画-->
         <transition name="fade">
             <div id="loading" v-show="loading">
                 <div id="loading-circle">
-                    <h2>LOADING</h2>
+                    <h2>加载中...</h2>
                     <p>加载过慢请开启缓存 浏览器默认开启</p>
                     <img src="<%- url_for(theme.loading) %>" />
                 </div>
             </div>
         </transition>
         <%- partial("menu") %>
+
+        <!--主体-->
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <!--当前要渲染的内容-->
             <%- partial(type) %>
+
+            <!--页脚内容-->
             <%- partial("footer") %>
         </div>
+
+        <!--图片预览-->
         <% if (theme.preview.enable) { %>
         <transition name="fade">
             <div id="preview" ref="preview" v-show="previewShow">
@@ -51,7 +63,9 @@
         </transition>
         <% } %>
     </div>
+
     <script src="<%- url_for("/js/main.js") %>"></script>
+    <!--评论的显示-->
     <% if (type === "post" && page.comments) { %>
     <%- partial("comment") %>
     <% } %>

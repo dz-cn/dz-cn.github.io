@@ -1,12 +1,9 @@
 <div id="archives">
     <% let posts = []; %>
     <div class="categories-tags">
-        <% let prev; %>
         <% site.categories.forEach((category) => { %>
         <%
-            const colors = is_category(category.name)
-                ? ["linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)"]
-                : theme.colors.filter((color) => color !== prev);
+            const colors = theme.colors.filter((color) => color);
             function getStringHash(str) {
                 let hash = 0;
                 for (let i = 0; i < str.length; i++) {
@@ -16,8 +13,7 @@
                 }
                 return hash;
             }
-            let id = getStringHash(tag.name) % colors.length;
-            prev = colors[id];
+            let id = getStringHash(category.name) % colors.length;
         %>
         <span>
             <a href="<%- url_for(category.path) %>" style="background: <%- colors[id] %>">
@@ -45,8 +41,21 @@
             </a>
             <div class="info">
                 <% if (post.categories && post.categories.data.length !== 0) { %>
+                    <%
+                        const colors = theme.colors.filter((color) => color);
+                        function getStringHash(str) {
+                            let hash = 0;
+                            for (let i = 0; i < str.length; i++) {
+                                const charCode = str.charCodeAt(i);
+                                // 简单哈希算法（确保相同字符串哈希一致，减少冲突）
+                                hash = ((hash << 5) - hash + charCode) | 0; // 转为32位整数避免溢出
+                            }
+                            return hash;
+                        }
+                        let id = getStringHash(post.categories.data[0].name) % colors.length;
+                    %>
                 <span class="category">
-                    <a href="<%- url_for(post.categories.data[0].path) %>">
+                    <a href="<%- url_for(post.categories.data[0].path) %>" style="color: <%- colors[id]%>">
                         <span class="icon">
                             <i class="fa-solid fa-bookmark fa-fw"></i>
                         </span>
@@ -59,11 +68,10 @@
                     <span class="icon">
                         <i class="fa-solid fa-tags fa-fw"></i>
                     </span>
-                    <% let prev; %>
                     <% post.tags.data.forEach((tag) => { %>
                     <span class="tag">
                         <%
-                            const colors = theme.colors.filter((color) => color !== prev);
+                            const colors = theme.colors.filter((color) => color);
                             function getStringHash(str) {
                                 let hash = 0;
                                 for (let i = 0; i < str.length; i++) {
@@ -74,7 +82,6 @@
                                 return hash;
                             }
                             let id = getStringHash(tag.name) % colors.length;
-                            prev = colors[id];
                         %>
                         <a href="<%- url_for(tag.path) %>" style="color: <%- colors[id] %>">
                             <%= tag.name %>

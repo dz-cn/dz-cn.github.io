@@ -47,25 +47,33 @@ menu:
         name: box-archive
         theme: solid
         link: /archives
-    Categories:
+    类型:
         name: bookmark
         theme: solid
         link: /categories
-    Tags:
+    标签:
         name: tags
         theme: solid
         link: /tags
 
 # 主页的个人信息卡片
 card:
-    enable: true
-    description: |
-        这里是介绍自己的详细信息，可以使用markdown语法
-    iconLinks:
-        - test01
-        - test02
-    friendLinks:
-        Argvchs: https://argvchs.github.io
+  enable: true
+  description: |
+      这里是介绍自己的详细信息，可以使用markdown语法
+  iconLinks:
+      - test01
+      - test02
+  friendLinks:
+      Argvchs: https://argvchs.github.io
+
+# 在主题配置中添加自定义配置
+custom:
+ enable: true
+ title: "自定义页面"
+ content: "这是配置驱动的内容"
+
+
 
 # Footer info
 footer:

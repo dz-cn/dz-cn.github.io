@@ -15,6 +15,11 @@ pinned: 0
 # 文章的语言，（用于统计字数）
 lang: zh
 
+categories:
+  - default
+  
+type: post
+
 # 同时，由于插件的作用，会自动生成一下字段
 # abbrlink: 文章的唯一索引 id 用于减少冲突
 # wordCount: 文章的词统计 -- 基本不准确
