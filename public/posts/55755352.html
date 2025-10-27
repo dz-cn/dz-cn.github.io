@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head><!-- hexo injector head_begin start --><script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script><!-- hexo injector head_begin end -->
+    <meta charset="utf-8" />
+    <title>测试文章01 | DZ博客</title>
+    <meta name="author" content="dz.cn" />
+    <meta name="description" content="稳-静-思" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.png" />
+
+    <!--引入对应内容的js文件-->
+    <link rel="preconnect" href="https://s4.zstatic.net"/>
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.cn"/>
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin/>
+<link
+        rel="stylesheet"
+        href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+    <script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <script src="/js/lib/highlight.js"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+    <script src="/js/lib/math.js"></script>
+
+
+    <script src="/js/lib/preview.js"></script>
+
+
+
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/main.css"/>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta name="generator" content="Hexo 8.0.0"></head>
+<body>
+    <div id="layout">
+        <!--加载动画-->
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>加载中...</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>DZ博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;主页</span>
+        </a>
+        
+        <a href="/echarts">
+            <i class="fa-solid fa-square-poll-horizontal fa-fw"></i>
+            <span>&ensp;热力图</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;文章</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;类型</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;标签</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;DZ博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">主页</div>
+                    </div>
+                </a>
+                
+                <a href="/echarts">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-square-poll-horizontal fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">热力图</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">文章</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">类型</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">标签</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+
+        <!--主体-->
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <!--当前要渲染的内容-->
+            <div class="article">
+    <!--文章标题-->
+    <div>
+        <h1>测试文章01</h1>
+    </div>
+
+    <!--每篇文章开头的信息-->
+    <div class="info">
+        <!--日期-->
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/10/18
+        </span>
+        <!--判断是否有分类-->
+        
+        <span class="category">
+            
+            <a href="/categories/%E6%B5%8B%E8%AF%95/" style="color: #03a9f4">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                测试
+            </a>
+        </span>
+        
+        <!--判断是否有标签-->
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B5%8B%E8%AF%95/" style="color: #03a9f4">
+                    测试
+                </a>
+            </span>
+            
+        </span>
+        
+
+        <!--本文的阅读量-->
+        <span style="margin-right: 15px">
+            <span class="icon">
+                <i class="fa-solid fa-eye"></i>
+            </span>
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+
+        <br>
+        <!--本文的字数统计-->
+        <span style="margin-right: 15px;">
+            <span class="icon">
+                <i class="fa-solid fa-pen"></i>
+            </span>
+            <span>497 字 | 1 代码块</span>
+        </span>
+    </div>
+
+    <!--加密配置，如果启用加密，这执行加密逻辑-->
+    
+    <div class="content" v-pre>
+        <h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="一、平方剩余和"><a href="#一、平方剩余和" class="headerlink" title="一、平方剩余和"></a>一、平方剩余和</h2><blockquote>
+<p>主要用于快速的判断两个数的乘积是否为完全平方数。<br>如果平方剩余和相等，则两个数的乘积是完全平方数。</p>
+</blockquote>
+<pre><code class="language-java">import java.util.HashSet;
+class Solution {
+    // 平方剩余和 的预处理
+    static int[] core = new int[1010];
+    static int limit = 1000;
+    static {
+        // 求 1~1000 的所有数的平方剩余和
+        for(int i = 1;i &lt;= limit;i++) {
+            if(core[i] == 0) {
+                // 说明没有被计算过
+                for(int j = 1;i*j*j &lt;= limit;j++) {
+                    core[i*j*j] = i;
+                }
+            }
+        }
+    }
+
+    // 验证，平方剩余和 时，两个数的乘积为完全平方数
+    public static void main(String[] args) {
+        for(int i = 1;i &lt;= 1000;i++) {
+            for(int j = i + 1;j &lt;= 1000;j++) {
+                if(core[i] == core[j]) {
+                    System.out.println((i * j) + &quot; == &quot; + (String.format(&quot;%.0f&quot;,Math.sqrt(i * j))) + &quot;^2&quot;);
+                }
+            }
+        }
+    }
+}
+</code></pre>
+
+    </div>
+    
+
+    <!--如果启用文章的评论，显示评论逻辑-->
+    
+    
+    
+    
+    
+    
+</div>
+
+
+            <!--页脚内容-->
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy; 2025 - 2025 DZ博客
+            <i class="fa-solid fa-font-awesome fa-fw"></i>
+            <a href= "http://example.com">&commat;dz.cn</a>
+            <br>
+            总访问量 <span id="busuanzi_value_site_pv"></span> 次 | 总访客数 <span id="busuanzi_value_site_uv"></span> 人次
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+        </div>
+
+        <!--图片预览-->
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+
+    <script src="/js/main.js"></script>
+    <!--评论的显示-->
+    
+    
+
+
+
+
+    
+</body>
+</html>
