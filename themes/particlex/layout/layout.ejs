@@ -6,6 +6,7 @@
     if (is_tag() || page.type === "tags") type = "tags";
     if (is_archive()) type = "archives";
     if (page.type === "custom") type = "custom";
+    if(page.type === "echarts") type = "echarts";
 
     let title = page.title + " | " + config.title;
     if (is_home()) title = config.title;

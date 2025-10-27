@@ -833,6 +833,68 @@ ol li {
         transform: rotate(480deg);
     }
 }
+
+/* 核心容器：严格保留margin-top:5%，无任何卡片样式 */
+#echarts {
+    margin-top: 5%; /* 完全保留你的要求 */
+    max-width: 1200px; /* 控制最大宽度，避免内容过宽 */
+    margin-left: auto;
+    margin-right: auto; /* 水平居中，适配不同屏幕 */
+    padding: 0 1.5rem; /* 左右留白，避免小屏幕内容贴边 */
+}
+
+/* 主标题：突出且有细节，不依赖卡片 */
+#echarts h1 {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: clamp(1.7rem, 3.5vw, 2.3rem); /* 响应式字号，屏幕越小越紧凑 */
+    font-weight: 600;
+    color: #1a202c; /* 深灰，比纯黑柔和，适配无卡片的简洁风格 */
+    text-align: center;
+    margin-bottom: 2.5rem; /* 与下方内容拉开距离，避免拥挤 */
+    position: relative;
+}
+
+/* 标题底部渐变装饰线：增加细节感，替代卡片边框 */
+#echarts h1::after {
+    content: "";
+    display: block;
+    width: 70px;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #3182ce); /* 蓝色渐变，比纯色更有层次 */
+    border-radius: 3px;
+    margin: 1rem auto 0; /* 居中且与标题文字隔开 */
+}
+
+/* 内容容器（日期/热力图关联内容）：简洁排版 */
+#echarts .date {
+    margin-top: 1rem;
+    padding: 0.5rem 0; /* 上下轻量留白，优化文本呼吸感 */
+}
+
+/* 内容文本优化：提升可读性 */
+#echarts .date * {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #4a5568; /* 中灰色，与标题形成主次对比 */
+    line-height: 1.7; /* 行高适中，长文本不费力 */
+    font-size: 1rem;
+    margin: 0.8rem 0; /* 段落间留白，区分内容块 */
+}
+
+/* 响应式适配：小屏幕（手机）优化 */
+@media (max-width: 768px) {
+    #echarts {
+        padding: 0 1rem; /* 缩小左右留白，适配小屏 */
+    }
+
+    #echarts h1 {
+        font-size: clamp(1.5rem, 3vw, 1.9rem); /* 小屏幕标题缩小，避免占满屏幕 */
+        margin-bottom: 2rem;
+    }
+
+    #echarts .date * {
+        font-size: 0.95rem; /* 小屏幕文本微缩，提升整体紧凑度 */
+    }
+}
 @media (min-width: 900px) {
     #home-head #home-info .info .wrap {
         padding: 25px;
