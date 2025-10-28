@@ -3,7 +3,7 @@
 <html lang="zh">
 <head><!-- hexo injector head_begin start --><script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script><!-- hexo injector head_begin end -->
     <meta charset="utf-8" />
-    <title>Categories: 测试 | DZ博客</title>
+    <title>MySQL事务 | DZ博客</title>
     <meta name="author" content="dz.cn" />
     <meta name="description" content="稳-静-思" />
     <meta name="keywords" content="" />
@@ -47,6 +47,10 @@
 
 
 
+
+    
+    
+    
 
 
 <link rel="stylesheet" href="/css/main.css"/>
@@ -161,24 +165,26 @@
         <!--主体-->
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <!--当前要渲染的内容-->
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        <span>
-            <a href="/categories/Java-%E5%9F%BA%E7%A1%80%E7%AF%87/" style="background: #4dd0e1">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Java 基础篇
-            </a>
+            <div class="article">
+    <!--文章标题-->
+    <div>
+        <h1>MySQL事务</h1>
+    </div>
+
+    <!--每篇文章开头的信息-->
+    <div class="info">
+        <!--日期-->
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/10/28
         </span>
+        <!--判断是否有分类-->
         
-        
-        
-        <span>
-            <a href="/categories/MySQL-%E7%AF%87/" style="background: #006064">
+        <span class="category">
+            
+            <a href="/categories/MySQL-%E7%AF%87/" style="color: #006064">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
@@ -186,108 +192,93 @@
             </a>
         </span>
         
+        <!--判断是否有标签-->
         
-        
-        <span>
-            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="background: #006064">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                操作系统
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="color: #9370db">
+                    事务
+                </a>
+            </span>
+            
         </span>
         
-        
-        
-        <span>
-            <a href="/categories/%E6%B5%8B%E8%AF%95/" style="background: #6b8e23">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                测试
-            </a>
+
+        <!--本文的阅读量-->
+        <span style="margin-right: 15px">
+            <span class="icon">
+                <i class="fa-solid fa-eye"></i>
+            </span>
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
         </span>
-        
-        
-        
-        
+
+        <br>
+        <!--本文的字数统计-->
+        <span style="margin-right: 15px;">
+            <span class="icon">
+                <i class="fa-solid fa-pen"></i>
+            </span>
+            <span>1580 字 | 0 代码块</span>
+        </span>
+    </div>
+
+    <!--加密配置，如果启用加密，这执行加密逻辑-->
+    
+    <div class="content" v-pre>
+        <h3 id="1、事务的ACID模型"><a href="#1、事务的ACID模型" class="headerlink" title="1、事务的ACID模型"></a>1、事务的ACID模型</h3><p>1、<strong>原子性</strong>：是最小分割的操作单元，要么全部成功，要么全部失败。</p>
+<p>2、<strong>一致性</strong>：事务完成时，必须使所有的数据都保持一致，即：事务前后数据的完整性和一致性。</p>
+<p>3、<strong>隔离性</strong>：数据库系统提供的隔离机制，通过不同的隔离级别，保证事务在不受外部并发操作影响的独立环境下运行。</p>
+<p>4、<strong>持久性</strong>：事务一旦提交或回滚，它对数据库中的数据的改变就是永久的，即使机器发生故障，也可以通过日志等方式恢复数据。</p>
+<h3 id="2、并发下的事务问题"><a href="#2、并发下的事务问题" class="headerlink" title="2、并发下的事务问题"></a>2、并发下的事务问题</h3><p>1、<strong>脏读</strong>：一个事务读取到另一个事务还没有提交的数据。</p>
+<p>2、<strong>不可重复读</strong>：一个事务先后读取同一条记录，但是两次读取的数据不同。</p>
+<p>3、<strong>幻读</strong>：在<strong>解决</strong>不可重复度的前提下，一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据已经存在，好像出现了一个幻影，再次查询又查不到，因为已经解决了不可重读的问题，因此会出现幻读的问题。前后两次查询的数据不一致，第二次查到了第一次不存在的数据。</p>
+<h3 id="4、事务的隔离级别-解决并发事务的问题-："><a href="#4、事务的隔离级别-解决并发事务的问题-：" class="headerlink" title="4、事务的隔离级别(解决并发事务的问题)："></a>4、事务的隔离级别(解决并发事务的问题)：</h3><p>1、<code>Read uncommitted</code> ：什么都不能解决。（读未提交，可以读到其他事务尚未提交的数据）</p>
+<p>2、<code>Read committed</code> ：只能解决脏读。（读已提交，只读其他事务已经提交的数据，不能读取未提交的更改，原因就是：在读取数据时加入了共享锁，但是，只是在读取时暂时，在事务提交或回滚后，就会释放锁，从而解决脏读问题）</p>
+<p>3、<code>Repeatable Read(默认)</code> ：只解决脏读、不可重复读。（会在整个事务期间持有锁，解决脏读和不可重复读）</p>
+<p>4、<code>Serializable</code> ：所有的都能解决。（加范围锁，会对查询的范围加锁，并且事务会按照一定的顺序排队执行，不会出现并发问题）</p>
+<h3 id="5、事务的原理"><a href="#5、事务的原理" class="headerlink" title="5、事务的原理"></a>5、事务的原理</h3><h5 id="1、基本概述"><a href="#1、基本概述" class="headerlink" title="1、基本概述"></a>1、基本概述</h5><ul>
+<li>原子性、一致性、持久性：是通过底层的两个日志文件来实现的，redo log 、undo log</li>
+<li>隔离性：是通过锁机制和MVCC(多版本并发控制)来实现的。</li>
+</ul>
+<h5 id="2、详细解释"><a href="#2、详细解释" class="headerlink" title="2、详细解释"></a>2、详细解释</h5><ul>
+<li><strong>持久性</strong><ul>
+<li>利用 <code>redo log</code> 实现。重做日志，记录事务提交时的数据<strong>物理页</strong>修改，即，<code>redo log</code>记录的是，<strong>某个页的某个数据从什么值变成什么值</strong>。</li>
+<li>该日志主要分为两个部分<ul>
+<li><strong>重做缓冲日志</strong>：<code>redo log buffer</code>，存在于内存中，记录事务提交时的物理修改。</li>
+<li><strong>重做日志文件</strong>：<code>redo log file</code>，存在于磁盘中。</li>
+</ul>
+</li>
+<li><strong>过程</strong>：当对缓冲区的数据进行增删改之后，会首先将<strong>数据页的变化</strong>记录到<code>redo log buffer</code> 中，在事务提交后，会<strong>直接</strong>将<code>redo log buffer</code> 中的数据刷新到磁盘文件中，之后在<strong>脏页刷新</strong>的时候出错了，就可以通过<code>redo log file</code>来进行恢复。</li>
+<li><strong>注意</strong>：为什么不在提交事务的时候直接将脏页刷新到磁盘，而是通过 <code>redo log</code>来实现，因为，直接刷新存在<strong>严重的性能问题</strong>因为一个事务中，一定包含很多条语句，每条语句的数据不一定相同，会涉及到<strong>很多随机磁盘IO</strong>，而<code>log</code>都是追加的，因此是<strong>顺序磁盘IO</strong>，顺序 IO 的效率大于随机 IO</li>
+</ul>
+</li>
+<li><strong>原子性</strong><ul>
+<li><code>undo log</code>用于<strong>回滚日志</strong>，记录数据被修改前的信息，作用包含两个：提供回滚和<code>MVCC</code>(多版本并发控制)</li>
+<li><code>undo log</code>是逻辑日志。可以认为当 <code>delete</code> 一条记录时，<code>undo log</code> 会记录一条对应的 insert 记录，反之亦然，当<code>update</code>一条记录时，他记录一条对应相反的<code>update</code>记录。当执行<code>rollback</code>时，就可以从<code>undo log</code> 中的逻辑记录中读取到相应的内容，并进行回滚，<strong>从而保证数据的原子性(主要时回滚)</strong>，实际上就是记录的是<strong>旧版本的数据</strong>。<ul>
+<li><code>Undo log</code>销毁：<code>undo log</code> 在事务执行时产生,，事务提交时，并不会立即删除，因为这些事务有肯能涉及到MVCC</li>
+<li><code>Undo log</code>存储：<code>undo log</code>采用段的方式进行回滚和记录，存放在<code>rollback</code>、<code>segment</code> 回滚段中。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/10/18</div>
-            <a href="/posts/cc7c02e8.html">
-                <h3>测试文章02</h3>
-            </a>
-            <div class="info">
-                
-                    
-                <span class="category">
-                    <a href="/categories/%E6%B5%8B%E8%AF%95/" style="color: #6b8e23">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        测试
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%B5%8B%E8%AF%95/" style="color: #6b8e23">
-                            测试
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+
+    <!--如果启用文章的评论，显示评论逻辑-->
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/10/18</div>
-            <a href="/posts/55755352.html">
-                <h3>测试文章01</h3>
-            </a>
-            <div class="info">
-                
-                    
-                <span class="category">
-                    <a href="/categories/%E6%B5%8B%E8%AF%95/" style="color: #6b8e23">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        测试
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%B5%8B%E8%AF%95/" style="color: #6b8e23">
-                            测试
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+    
+    
+    
+    
     
 </div>
 
@@ -323,6 +314,12 @@
 
     <script src="/js/main.js"></script>
     <!--评论的显示-->
+    
+    
+
+
+
+
     
 </body>
 </html>

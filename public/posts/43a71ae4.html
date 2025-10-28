@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head><!-- hexo injector head_begin start --><script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script><!-- hexo injector head_begin end -->
+    <meta charset="utf-8" />
+    <title>MySQL索引 | DZ博客</title>
+    <meta name="author" content="dz.cn" />
+    <meta name="description" content="稳-静-思" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.png" />
+
+    <!--引入对应内容的js文件-->
+    <link rel="preconnect" href="https://s4.zstatic.net"/>
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.cn"/>
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin/>
+<link
+        rel="stylesheet"
+        href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+    <script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <script src="/js/lib/highlight.js"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+    <script src="/js/lib/math.js"></script>
+
+
+    <script src="/js/lib/preview.js"></script>
+
+
+
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/main.css"/>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta name="generator" content="Hexo 8.0.0"></head>
+<body>
+    <div id="layout">
+        <!--加载动画-->
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>加载中...</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>DZ博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;主页</span>
+        </a>
+        
+        <a href="/echarts">
+            <i class="fa-solid fa-square-poll-horizontal fa-fw"></i>
+            <span>&ensp;热力图</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;文章</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;类型</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;标签</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;DZ博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">主页</div>
+                    </div>
+                </a>
+                
+                <a href="/echarts">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-square-poll-horizontal fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">热力图</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">文章</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">类型</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">标签</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+
+        <!--主体-->
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <!--当前要渲染的内容-->
+            <div class="article">
+    <!--文章标题-->
+    <div>
+        <h1>MySQL索引</h1>
+    </div>
+
+    <!--每篇文章开头的信息-->
+    <div class="info">
+        <!--日期-->
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/10/28
+        </span>
+        <!--判断是否有分类-->
+        
+        <span class="category">
+            
+            <a href="/categories/MySQL-%E7%AF%87/" style="color: #006064">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                MySQL 篇
+            </a>
+        </span>
+        
+        <!--判断是否有标签-->
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/MySQL%E7%B4%A2%E5%BC%95/" style="color: #56c8d8">
+                    MySQL索引
+                </a>
+            </span>
+            
+        </span>
+        
+
+        <!--本文的阅读量-->
+        <span style="margin-right: 15px">
+            <span class="icon">
+                <i class="fa-solid fa-eye"></i>
+            </span>
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+
+        <br>
+        <!--本文的字数统计-->
+        <span style="margin-right: 15px;">
+            <span class="icon">
+                <i class="fa-solid fa-pen"></i>
+            </span>
+            <span>3554 字 | 2 代码块</span>
+        </span>
+    </div>
+
+    <!--加密配置，如果启用加密，这执行加密逻辑-->
+    
+    <div class="content" v-pre>
+        <h3 id="1、索引概述："><a href="#1、索引概述：" class="headerlink" title="1、索引概述："></a>1、索引概述：</h3><p><strong>索引</strong>是一种有序的数据结构，用于高效的查询数据。（可以举个例子：集合查字典是通过目录查询（索引查询）还是一页一页翻（全表扫描））</p>
+<p><strong>优点：<strong>提高检索效率，降低IO成本。通过索引排序(B+树具有天然的有序性，按索引键值</strong>顺序存储</strong>，当遇到排序时，直接按照链表遍历输出即可，不需要CPU参与排序)，降低CPU的消耗。</p>
+<p>**缺点：**索引也会占用存储空间，并且在插入和删除数据时，需要维护索引结构。</p>
+<h3 id="2、索引数据结构："><a href="#2、索引数据结构：" class="headerlink" title="2、索引数据结构："></a>2、索引数据结构：</h3><h4 id="0、B-Tree-的结构："><a href="#0、B-Tree-的结构：" class="headerlink" title="0、B+Tree 的结构："></a>0、B+Tree 的结构：</h4><p>​     ① B+树的结点主要分为两类：</p>
+<p>​         1）内部节点：主存储索引键和指向结点的指针，不存储实际数据，每个内部结点包含k个键和k+1个子指针，键用于划分子节点的区间。</p>
+<p>​          2）叶子结点：存储完整的键值对，或指向数据的指针，并通过双向链表按<strong>顺序</strong>连接。</p>
+<p>​     ② 核心设计：</p>
+<p>​          1）数据与索引分离：内部节点存储索引键，子节点存储实际的数据，单个节点可容纳多个值，有效的降低树的高度。</p>
+<p>​          2）叶子节点链表化，形成有序的线性结构，显著的提升了范围查询，排序等的效率。</p>
+<p>​          3）所有叶子节点位于同一层级，因为所有查询必须到达叶子节点，查询时间稳定为log(n)</p>
+<h4 id="1、为什么采用B-树结构："><a href="#1、为什么采用B-树结构：" class="headerlink" title="1、为什么采用B+树结构："></a>1、为什么采用B+树结构：</h4><ul>
+<li><strong>hash表</strong>：使用唯一的key查询value，时间复杂度为 O(1) ，很快，但是没有办法做范围查询，也没办法排序。</li>
+<li><strong>二叉排序树</strong>：左节点小于根，右节点大于根，中序遍历就是有序的，可以排序，也可以范围查询，但是在顺序插入时，会退化为链表导致查询性能变的很差。</li>
+<li><strong>平衡二叉树</strong>：在插入节点时采用旋转操作，让二叉树保持平衡，左右子树的高度差不大于 1，能避免极端情况下退化为链表，但是由于平衡二叉树追求绝对的平衡，所以在插入，删除数据时，会频繁的左旋右旋保持平衡，在数据库中，频繁的旋转就会带来大量的磁盘IO，降低性能。</li>
+<li><strong>红黑树</strong>：也是在插入删除元素时，会通过变色，旋转操作让二叉树保持平衡，但是由于不追求绝对的平衡，只要大致平衡就行了，这样就大大降低了插入，删除时需要的平衡操作，对于数据库来说，就是减少了磁盘的IO，但是红黑二叉树是一种二叉树，一个节点只能由两个子节点，当数据量大的时候，树高就会很高，查询数据时要进行较多的磁盘IO，因此对于少量数据查询效率高，而对于大量数据时，红黑树的查询性能比较低。</li>
+<li><strong>B树</strong>，B树多路平衡排序树，一个节点有n个子节点，数据量大的情况下，树高也比较低，但是，B树的节点既存数据，也存索引，因此一个节点能存储的索引比较少，当数据量大的时候，树高就会很高，并且B树做范围查询时，需要回溯树结构，会产生很多的随机IO，查询效率较低。而且B树的查询效率不稳定，对于较低层的结果查询效率快，较高层的结果查询效率慢。</li>
+<li><strong>B + 树</strong>，也是多路平衡排序树，而且B+树的非叶子节点只存索引值，不存数据，因此单个节点能存的索引就变多了，树的高度更低，查询性能更好，而且B+树的数据都存在叶子节点，并且数据都有双向链表连接，范围查询时，只需要遍历链表，不用回溯树结构。</li>
+</ul>
+<h3 id="3、索引分类："><a href="#3、索引分类：" class="headerlink" title="3、索引分类："></a>3、索引分类：</h3><h4 id="1、在innoDB中储存引擎中可分为两种"><a href="#1、在innoDB中储存引擎中可分为两种" class="headerlink" title="1、在innoDB中储存引擎中可分为两种"></a>1、在innoDB中储存引擎中可分为两种</h4><p><strong>注意：底层结构都是B+Tree，只不过是叶子节点的数据不同</strong></p>
+<ul>
+<li><p>唯一索引（了解）：不可重复</p>
+</li>
+<li><p>全文索引（了解）：类似于ES的倒排索引</p>
+</li>
+<li><p>聚集索引：将<strong>数据与索引放到一块</strong>存储，索引结构的<strong>叶子节点保存行数据</strong>。必须有，而且<strong>只能有一个</strong>。</p>
+<ul>
+<li>聚集索引的选取规则：<ul>
+<li>如果存在主键，主键索引就是聚集索引。</li>
+<li>如果不存在主键，将使用第一个唯一索引作为聚集索引。</li>
+<li>如果表中没有主键，或者没有适合的唯一索引，则innoDB会自动生成一个rowid作为隐藏的聚集索引。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>非聚集索引（二级索引）：将<strong>数据与索引分开存储</strong>，索引结构的<strong>叶子节点关联的时对应的主键</strong>。因此，查询时，会先查到主键索引，再回表查询到具体的数据。</p>
+</li>
+<li><p>查询流程：<br><img src="/./images/MySQL%E7%B4%A2%E5%BC%95-01.png" alt="MySQL索引-01.png"></p>
+</li>
+</ul>
+<h4 id="2、查询二级索引时一定要回表查询吗？"><a href="#2、查询二级索引时一定要回表查询吗？" class="headerlink" title="2、查询二级索引时一定要回表查询吗？"></a>2、查询二级索引时一定要回表查询吗？</h4><p>不是。如果只查询id，二级索引树的结点就有id，就不用回表查询了，也就是当一个索引包含所有需要查询的值的时候，就不需要回表查询了，这种<strong>情况</strong>就是<strong>覆盖索引</strong>，而减少回表查询，就是尽可能地做到覆盖索引，如果一个索引列有多个字段，就能增加覆盖索引地概率，这种索引就是<strong>联合索引</strong>，所谓联合索引就是对表中地多个字段创建索引。</p>
+<h3 id="4、索引语法"><a href="#4、索引语法" class="headerlink" title="4、索引语法"></a>4、索引语法</h3><pre><code class="language-mysql">-- 创建索引：[唯一索引|全文索引] index 索引名 on 表名 (字段名1,字段2,...)
+-- 索引表的名称一般为：idx_表名_字段名
+create [UNIQUE|FULLTEXT] index index_name on table_name (index_col_name,...);
+-- 查看索引
+show index from table_name
+-- 删除索引
+drop index index_name on table_name
+</code></pre>
+<h3 id="5、SQL性能分析"><a href="#5、SQL性能分析" class="headerlink" title="5、SQL性能分析"></a>5、SQL性能分析</h3><pre><code class="language-mysql">-- 查看数据库所有语句的执行频次：session表示当前会话的，global表示全局
+show [session|global] status like &#39;Com_______&#39;;
+-- 慢查日志
+	-- 查看慢查询日志是否开启
+	show variables like &#39;slow_query_log&#39;;
+	-- 开启MySQL慢日志查询开关
+	slow_query_log=1
+	-- 设置慢日志的时间为2秒，SQL语句执行时间超过2秒，就会被视为慢查询，记录慢查询的日志。
+	long_query_time=2
+-- profiling
+	-- 查看当前数据库是否支持
+	select @@have_profiling
+	-- 是否开启
+	select @@profiling
+	-- 开启
+	set profiling=1
+	-- 查看
+	show profiles
+-- explain 查看搜索的执行情况
+	explain select * from user;
+</code></pre>
+<p><img src="/images/MySQL%E7%B4%A2%E5%BC%95-02.png" alt="MySQL索引-02.png"><br><img src="/images/MySQL%E7%B4%A2%E5%BC%95-03.png" alt="MySQL索引-03.png"><br><strong>对type字段的解释：</strong></p>
+<ul>
+<li><p><code>NULL</code>：通常是不需要查表，而是直接计算得出</p>
+</li>
+<li><p><code>system</code>：表示数据只有一行，是 <code>const</code> 的一种特例</p>
+</li>
+<li><p><code>const</code>：表示常量级别查询，常见用于 主键、唯一索引的<strong>等值查询</strong></p>
+</li>
+<li><p><code>eq_ref</code>：表示唯一索引扫描，常用于 主键、唯一索引的<strong>等值查询</strong>，通常用于 <code>join</code>操作，当条件中的列是唯一索引时才用。</p>
+</li>
+<li><p><code>ref</code>：非唯一索引扫描，返回匹配值的所有行</p>
+</li>
+<li><p><code>range</code>：范围扫描，表示使用索引的一部分</p>
+</li>
+<li><p><code>index</code>：全索引扫描，表示不需要回表查询，直接扫描完后直接返回（<strong>索引储存的字段就是要查询的字段</strong>）</p>
+</li>
+<li><p><code>all</code>：全表扫描</p>
+</li>
+</ul>
+<h3 id="6、索引的使用"><a href="#6、索引的使用" class="headerlink" title="6、索引的使用"></a>6、索引的使用</h3><h4 id="1、最左前缀法则："><a href="#1、最左前缀法则：" class="headerlink" title="1、最左前缀法则："></a>1、最左前缀法则：</h4><p>​      如果索引了多列，（联合索引），要遵循最左前缀法则，指的是查询从索引的最左列开始，并且不跳过索引中的列。如果跳过了某一列，索引将部分失效（后面的字段索引也失效）</p>
+<blockquote>
+<p>   基本原理就是：联合索引有多个索引列，因此排序地时候会<strong>根据索引列的顺序</strong>去排序，查找的时候会根据<strong>索引列的顺序从左到右依次匹配</strong></p>
+<p>   就是如果一个索引表关联了多个字段，那末，查询时必须包含最左边的字段时，索引才生效，否则，索引不生效。如果关联的是三个字段，如：A B C 那么，在查询时，如果where A&#x3D;’‘，B&#x3D; ’‘，C&#x3D; ’‘ ；索引生效，如果B &#x3D; ’‘，C&#x3D;’‘。索引失效，<strong>因为B,C是建立在A的有序的基础上</strong>，不存在A，后面B,C就是乱序的，如果：A&#x3D;’‘，C&#x3D;’‘；A索引生效，C索引失效；应为C是建立在B上的，如果 C B A 也走索引，而且全部生效，因为MySQL的优化器会自动把索引列进行重排序。</p>
+</blockquote>
+<h4 id="2、最左前缀法则的应用"><a href="#2、最左前缀法则的应用" class="headerlink" title="2、最左前缀法则的应用"></a>2、最左前缀法则的应用</h4><ul>
+<li><p>范围查询：如果使用了&gt; 或 &lt; 的字段，则其后面的索引失效，但是，如果使用的是 &gt;&#x3D; 或 &lt;&#x3D; 则不失效。</p>
+</li>
+<li><p>索引运算：如果索引字段进行函数运算，则索引失效</p>
+</li>
+<li><p>字符串不加单引号：字符串不加 ‘ ’ 则索引失效</p>
+</li>
+<li><p>模糊查询：尾部模糊（后面加%）查询走索引，后面模糊（前面加%）不走索引</p>
+</li>
+<li><p>or：or 连接的索引，如果前面有索引，后面没索引，那么索引失效，应为不能同时做索引扫描和全表扫描。解决：给字段建立索引。</p>
+</li>
+<li><p>数据分布：如果Mysql判断，走全表扫描快还是走索引快，那个快用哪个。</p>
+</li>
+<li><p>覆盖索引：覆盖索引就是只查询二级索引，就能查出来需要的字段，不需要回表查询select 后不要写 * 要写需要的字段</p>
+</li>
+<li><p>前缀索引：在处理比较长的索引的时候。语法：<code>create index idx_xxxx on table_name(column(n))</code>表示我要将字符串的一部分前缀建立索引从而节省索引的空间。通过数据的 字段不重复的记录数 &#x2F; 总记录数 的值，如果越接近 1 ，就越好。</p>
+</li>
+</ul>
+<h4 id="3、SQL提示"><a href="#3、SQL提示" class="headerlink" title="3、SQL提示"></a>3、SQL提示</h4><p>1、<code>use index(索引名)</code> ：可以用哪个索引</p>
+<p>2、<code>ignore index(索引名)</code> ：忽略哪个索引</p>
+<p>3、<code>force index(索引名)</code> ：必须使用哪个索引</p>
+<p><code>select * from china_zipcode use index();</code></p>
+<h4 id="4、为什么不能全部加上索引"><a href="#4、为什么不能全部加上索引" class="headerlink" title="4、为什么不能全部加上索引"></a>4、为什么不能全部加上索引</h4><p>索引过多，索引所占用的内存也会增多，并且在增加或删除数据是，需要维护的索引结构就会很多，降低增删改的性能。一般最多不要超过 5 个</p>
+
+    </div>
+    
+
+    <!--如果启用文章的评论，显示评论逻辑-->
+    
+    
+    
+    
+    
+    
+</div>
+
+
+            <!--页脚内容-->
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy; 2025 - 2025 DZ博客
+            <i class="fa-solid fa-font-awesome fa-fw"></i>
+            <a href= "http://example.com">&commat;dz.cn</a>
+            <br>
+            总访问量 <span id="busuanzi_value_site_pv"></span> 次 | 总访客数 <span id="busuanzi_value_site_uv"></span> 人次
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+        </div>
+
+        <!--图片预览-->
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+
+    <script src="/js/main.js"></script>
+    <!--评论的显示-->
+    
+    
+
+
+
+
+    
+</body>
+</html>
