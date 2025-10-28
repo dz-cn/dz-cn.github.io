@@ -9,6 +9,13 @@ lang: zh
 categories:
   - MySQL 篇
 type: post
+wordCount: 129
+charCount: 3554
+imgCount: 3
+vidCount: 0
+wsCount: 0
+cbCount: 2
+readTime: 约2分钟
 date: 2025-10-28 16:32:34
 ---
 ### 1、索引概述：

@@ -9,6 +9,13 @@ lang: zh
 categories:
   - MySQL 篇
 type: post
+wordCount: 107
+charCount: 2507
+imgCount: 0
+vidCount: 0
+wsCount: 0
+cbCount: 0
+readTime: 约46秒
 date: 2025-10-28 16:40:31
 ---
 ### 1、锁的分类

@@ -9,6 +9,13 @@ lang: zh
 categories:
   - MySQL 篇
 type: post
+wordCount: 65
+charCount: 1580
+imgCount: 0
+vidCount: 0
+wsCount: 0
+cbCount: 0
+readTime: 约30秒
 date: 2025-10-28 16:31:28
 ---
 ### 1、事务的ACID模型
