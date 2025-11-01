@@ -13,7 +13,7 @@
     />
     <link rel="icon" href="/images/avatar.png" />
 
-    <!--引入对应内容的js文件-->
+    <!--引入对应内容的js文件以及import.ejs文件-->
     <link rel="preconnect" href="https://s4.zstatic.net"/>
 <script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -225,16 +225,37 @@
             <span class="icon">
                 <i class="fa-solid fa-pen"></i>
             </span>
-            <span>1853 字 | 0 代码块</span>
+            <span>2245 字 | 0 代码块</span>
         </span>
     </div>
 
     <!--加密配置，如果启用加密，这执行加密逻辑-->
     
     <div class="content" v-pre>
-        <h3 id="1、ArrayList-的底层数据结构是什么？"><a href="#1、ArrayList-的底层数据结构是什么？" class="headerlink" title="1、ArrayList 的底层数据结构是什么？"></a>1、ArrayList 的底层数据结构是什么？</h3><p>​      ArrayList 的底层数据结构是 Object 类型的 elementData 数组，该数组具有动态可扩容机制，即动态可扩容数组。该数组由 transient 修饰，标记为不可序列化，用来解决在数组序列化时，会将空元素也序列化的问题。同时实现了 writeObject 和 readObject 方法，来手动实现有效元素的序列化和反序列化。</p>
-<h3 id="2、ArrayList-如何添加元素？扩容机制是什么？"><a href="#2、ArrayList-如何添加元素？扩容机制是什么？" class="headerlink" title="2、ArrayList 如何添加元素？扩容机制是什么？"></a>2、ArrayList 如何添加元素？扩容机制是什么？</h3><h5 id="1）添加元素："><a href="#1）添加元素：" class="headerlink" title="1）添加元素："></a>1）添加元素：</h5><p>​            通过 add() 方法用来添加元素，而 add() 方法，实际上是调用内部私有的add() 方法，向elementData 数组中添加元素。</p>
-<h5 id="2）扩容机制："><a href="#2）扩容机制：" class="headerlink" title="2）扩容机制："></a>2）扩容机制：</h5><ul>
+        <!-- toc -->
+
+<ul>
+<li><a href="#1-arraylist-%E7%9A%84%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%98%AF%E4%BB%80%E4%B9%88">1、ArrayList 的底层数据结构是什么？</a></li>
+<li><a href="#2-arraylist-%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6%E6%98%AF%E4%BB%80%E4%B9%88">2、ArrayList 如何添加元素？扩容机制是什么？</a><ul>
+<li><a href="#1%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0">1）添加元素：</a></li>
+<li><a href="#2%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6">2）扩容机制：</a></li>
+</ul>
+</li>
+<li><a href="#3-arraylist-%E6%98%AF%E5%90%A6%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3">3、ArrayList 是否线程安全？如何解决？</a><ul>
+<li><a href="#1%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8">1）线程安全：</a></li>
+<li><a href="#2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">2）解决方案：</a></li>
+</ul>
+</li>
+<li><a href="#4-%E4%B8%BA%E4%BB%80%E4%B9%88arraylist%E6%89%A9%E5%AE%B9%E4%B8%BA%E5%8E%9F%E6%9D%A5%E7%9A%8415%E5%80%8D">4、为什么ArrayList扩容为原来的1.5倍？</a></li>
+<li><a href="#5-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%BF%AD%E4%BB%A3%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%88%A0%E9%99%A4%E5%85%83%E7%B4%A0">5、如何在迭代过程中删除元素？</a></li>
+<li><a href="#6-modcount-%E5%AD%97%E6%AE%B5%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88">6、modCount 字段的作用是什么？</a></li>
+<li><a href="#7-%E5%BF%AB%E9%80%9F%E5%A4%B1%E8%B4%A5-%E5%AE%89%E5%85%A8%E5%A4%B1%E8%B4%A5">7、快速失败 + 安全失败</a></li>
+</ul>
+<!-- tocstop -->
+
+<h3><span id="1-arraylist-的底层数据结构是什么">1、ArrayList 的底层数据结构是什么？</span></h3><p>​      ArrayList 的底层数据结构是 Object 类型的 elementData 数组，该数组具有动态可扩容机制，即动态可扩容数组。该数组由 transient 修饰，标记为不可序列化，用来解决在数组序列化时，会将空元素也序列化的问题。同时实现了 writeObject 和 readObject 方法，来手动实现有效元素的序列化和反序列化。</p>
+<h3><span id="2-arraylist-如何添加元素扩容机制是什么">2、ArrayList 如何添加元素？扩容机制是什么？</span></h3><h5><span id="1添加元素">1）添加元素：</span></h5><p>​            通过 add() 方法用来添加元素，而 add() 方法，实际上是调用内部私有的add() 方法，向elementData 数组中添加元素。</p>
+<h5><span id="2扩容机制">2）扩容机制：</span></h5><ul>
 <li>首先，检查数组当前的有效元素的数量是否等于elementData的总长度。<ul>
 <li>如果不相等，说明数组未满，则直接添加，并将size的大小加一。</li>
 <li>如果相等，说明当前的空间已经用完，则进入gow()，并将扩容后的数组赋值给elementData数组，然后继续将元素放入，size的大小加一。<ul>
@@ -249,15 +270,15 @@
 </ul>
 </li>
 </ul>
-<h3 id="3、ArrayList-是否线程安全？如何解决？"><a href="#3、ArrayList-是否线程安全？如何解决？" class="headerlink" title="3、ArrayList 是否线程安全？如何解决？"></a>3、ArrayList 是否线程安全？如何解决？</h3><h5 id="1）线程安全："><a href="#1）线程安全：" class="headerlink" title="1）线程安全："></a>1）线程安全：</h5><p>​           是非线程安全的，其根本原因是内部没有同步机制，所有的操作都是共享数组和计数器，关键操作并没有原子性。多线程模式下容易出现ConcurrentModificationException 等异常。</p>
-<h5 id="2）解决方案："><a href="#2）解决方案：" class="headerlink" title="2）解决方案："></a>2）解决方案：</h5><p>​           ① 对于轻度并发场景，使用并发工具包Collections的SynchronizedList() 方法，构造线程安全的集合，原理就是通过包装器为所有的方法都加上Synchronized锁，但是，并发性能低，迭代时必须显示的加上锁，因为并发工具包只是为独立的方法加上了 Synchroized(mutex)，而迭代时的多个操作，涉及hasNext、next操作，这些组合操作本身并不是原子的，因此在迭代时，需要显示的加上锁。</p>
+<h3><span id="3-arraylist-是否线程安全如何解决">3、ArrayList 是否线程安全？如何解决？</span></h3><h5><span id="1线程安全">1）线程安全：</span></h5><p>​           是非线程安全的，其根本原因是内部没有同步机制，所有的操作都是共享数组和计数器，关键操作并没有原子性。多线程模式下容易出现ConcurrentModificationException 等异常。</p>
+<h5><span id="2解决方案">2）解决方案：</span></h5><p>​           ① 对于轻度并发场景，使用并发工具包Collections的SynchronizedList() 方法，构造线程安全的集合，原理就是通过包装器为所有的方法都加上Synchronized锁，但是，并发性能低，迭代时必须显示的加上锁，因为并发工具包只是为独立的方法加上了 Synchroized(mutex)，而迭代时的多个操作，涉及hasNext、next操作，这些组合操作本身并不是原子的，因此在迭代时，需要显示的加上锁。</p>
 <p>​           ② CopyOnWriteArrayList 适用于读多写少的情况，原理就是，在写操作时，复制整个数组，同时数组的长度加1，在新数组的最后位置加上一个元素，再用新数组替换旧数组。而在添加的过程中，在jdk 9 之前用的都是 ReentrantLook 锁，而在jdk 9 之后，用的就是Synchroized。</p>
 <p>​           ③ Vector，是线程安全的，原理就是每个方法都用 Synchroized 锁，但是性能较低，迭代器问题未解决。由于锁的力度比较粗，所有公共方法都被Synchroized 修饰，单线程每次调用都有锁的开销，而在多线程模式下，即使是读操作之间也会互斥，无法并发。并且默认扩容为原来的2倍，容易造成内存泄漏。同时迭代器也没有实现线程安全。</p>
 <p>​           ④ 手动同步。</p>
-<h3 id="4、为什么ArrayList扩容为原来的1-5倍？"><a href="#4、为什么ArrayList扩容为原来的1-5倍？" class="headerlink" title="4、为什么ArrayList扩容为原来的1.5倍？"></a>4、为什么ArrayList扩容为原来的1.5倍？</h3><p>​      扩容较大会有OOM以及内存浪费，扩容较小会有多次扩容，浪费性能。而1.5是在扩容频率适中，空间利用率最高的大小。</p>
-<h3 id="5、如何在迭代过程中删除元素？"><a href="#5、如何在迭代过程中删除元素？" class="headerlink" title="5、如何在迭代过程中删除元素？"></a>5、如何在迭代过程中删除元素？</h3><p>​      调用迭代器自身提供的remove()方法，进行删除元素，原理是在调用过程中，会更新modCount的值，不会触发快速失败。</p>
-<h3 id="6、modCount-字段的作用是什么？"><a href="#6、modCount-字段的作用是什么？" class="headerlink" title="6、modCount 字段的作用是什么？"></a>6、modCount 字段的作用是什么？</h3><p>​      modCount 是结构修改哨兵，任何有关修改数组的结构的操作都会导致modCount加1，包括添加元素，删除元素，但是替换元素不会导致modCount加1。当在迭代过程中，会先记录modCount的值，每次迭代调用next()方法都会对比是否相同，不相同直接抛出ConcurrantModificationException。多线程下，防止一个线程迭代，一个线程修改的情况，单线程中以最低的成本实现快速失败，防止数据不一致。</p>
-<h3 id="7、快速失败-安全失败"><a href="#7、快速失败-安全失败" class="headerlink" title="7、快速失败 + 安全失败"></a>7、快速失败 + 安全失败</h3><p>​    <em>快速失败</em>：通过检测集合的并发修改，及时抛出异常来避免潜在的逻辑错误。即：通过修改计数器 modCont 记录修改次数，当出现不一致的情况时，立即抛出 <code>ConcurrentModificationException</code> 异常。但它<strong>不解决线程安全问题</strong>，仅用于快速暴露问题。</p>
+<h3><span id="4-为什么arraylist扩容为原来的15倍">4、为什么ArrayList扩容为原来的1.5倍？</span></h3><p>​      扩容较大会有OOM以及内存浪费，扩容较小会有多次扩容，浪费性能。而1.5是在扩容频率适中，空间利用率最高的大小。</p>
+<h3><span id="5-如何在迭代过程中删除元素">5、如何在迭代过程中删除元素？</span></h3><p>​      调用迭代器自身提供的remove()方法，进行删除元素，原理是在调用过程中，会更新modCount的值，不会触发快速失败。</p>
+<h3><span id="6-modcount-字段的作用是什么">6、modCount 字段的作用是什么？</span></h3><p>​      modCount 是结构修改哨兵，任何有关修改数组的结构的操作都会导致modCount加1，包括添加元素，删除元素，但是替换元素不会导致modCount加1。当在迭代过程中，会先记录modCount的值，每次迭代调用next()方法都会对比是否相同，不相同直接抛出ConcurrantModificationException。多线程下，防止一个线程迭代，一个线程修改的情况，单线程中以最低的成本实现快速失败，防止数据不一致。</p>
+<h3><span id="7-快速失败-安全失败">7、快速失败 + 安全失败</span></h3><p>​    <em>快速失败</em>：通过检测集合的并发修改，及时抛出异常来避免潜在的逻辑错误。即：通过修改计数器 modCont 记录修改次数，当出现不一致的情况时，立即抛出 <code>ConcurrentModificationException</code> 异常。但它<strong>不解决线程安全问题</strong>，仅用于快速暴露问题。</p>
 <p><em>安全失败</em>：例如 <code>CopyOnWriteArrayList</code> 在创建迭代器时，会生成当前集合的快照，遍历通过这个快照进行遍历。因此，当迭代过程中进行修改时，修改的结果不会影响快照的内容，导致迭代过程中无法感知集合的实时变化。适合读多写少、对实时性要求不高的场景。</p>
 
     </div>
@@ -301,7 +322,6 @@
         </transition>
         
     </div>
-
     <script src="/js/main.js"></script>
     <!--评论的显示-->
     

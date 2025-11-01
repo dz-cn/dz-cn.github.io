@@ -1,3 +1,111 @@
+/* 全局启用平滑滚动，适用于所有锚点跳转（包括目录） */
+html {
+    scroll-behavior: smooth;
+}
+
+/** {*/
+/*    cursor: url("../images/cursor/default.gif"),default !important;*/
+/*}*/
+
+
+/*!*鼠标样式*!*/
+/*!* 全局基础鼠标样式（默认状态） *!*/
+/*body {*/
+/*    !* 普通状态：自定义光标 +  fallback 为系统默认箭头 *!*/
+/*    cursor: url('../images/cursor/select.gif'),default;*/
+/*}*/
+
+/*!* 链接相关样式 *!*/
+/*a {*/
+/*    !* 链接默认状态（未 hover 时） *!*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+/*a:hover {*/
+/*    !* 链接悬停时 *!*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+/*a:active {*/
+/*    !* 链接点击瞬间（按下未松开） *!*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 按钮相关样式 *!*/
+/*button,*/
+/*input[type="button"],*/
+/*input[type="submit"],*/
+/*input[type="reset"] {*/
+/*    !* 按钮默认状态 *!*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+/*button:hover,*/
+/*input[type="button"]:hover,*/
+/*input[type="submit"]:hover,*/
+/*input[type="reset"]:hover {*/
+/*    !* 按钮悬停时 *!*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+/*button:active,*/
+/*input[type="button"]:active,*/
+/*input[type="submit"]:active,*/
+/*input[type="reset"]:active {*/
+/*    !* 按钮点击瞬间 *!*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+/*button:disabled,*/
+/*input[type="button"]:disabled {*/
+/*    !* 禁用状态的按钮 *!*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 输入框相关样式 *!*/
+/*input[type="text"],*/
+/*input[type="password"],*/
+/*input[type="email"],*/
+/*textarea {*/
+/*    !* 文本输入框（默认/聚焦时） *!*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 下拉选择框 *!*/
+/*select {*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 复选框/单选框 *!*/
+/*input[type="checkbox"],*/
+/*input[type="radio"] {*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 滑块控件（如音量、亮度调节） *!*/
+/*input[type="range"] {*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 表格单元格 *!*/
+/*td, th {*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 列表项 *!*/
+/*li {*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 图片元素 *!*/
+/*img {*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 可拖动元素（如自定义拖拽组件） *!*/
+/*.draggable {*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
+
+/*!* 加载中状态（可配合JS动态添加类名） *!*/
+/*.loading {*/
+/*    cursor: url('../images/loading-d.gif'), pointer;*/
+/*}*/
 #archives {
     margin: auto;
     margin-top: 100px;

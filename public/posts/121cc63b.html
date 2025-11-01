@@ -13,7 +13,7 @@
     />
     <link rel="icon" href="/images/avatar.png" />
 
-    <!--引入对应内容的js文件-->
+    <!--引入对应内容的js文件以及import.ejs文件-->
     <link rel="preconnect" href="https://s4.zstatic.net"/>
 <script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -225,14 +225,22 @@
             <span class="icon">
                 <i class="fa-solid fa-pen"></i>
             </span>
-            <span>1539 字 | 0 代码块</span>
+            <span>1617 字 | 0 代码块</span>
         </span>
     </div>
 
     <!--加密配置，如果启用加密，这执行加密逻辑-->
     
     <div class="content" v-pre>
-        <h3 id="1、MVCC-基本概念"><a href="#1、MVCC-基本概念" class="headerlink" title="1、MVCC-基本概念"></a>1、MVCC-基本概念</h3><ul>
+        <!-- toc -->
+
+<ul>
+<li><a href="#1-mvcc-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">1、MVCC-基本概念</a></li>
+<li><a href="#2-mvcc-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">2、MVCC-实现原理</a></li>
+</ul>
+<!-- tocstop -->
+
+<h3><span id="1-mvcc-基本概念">1、MVCC-基本概念</span></h3><ul>
 <li><p>当前读</p>
 <ul>
 <li><p>读取的时记录的<strong>最新版本</strong>，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁，对于我们日常的操作，如：</p>
@@ -256,7 +264,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="2、MVCC-实现原理"><a href="#2、MVCC-实现原理" class="headerlink" title="2、MVCC-实现原理"></a>2、MVCC-实现原理</h3><ul>
+<h3><span id="2-mvcc-实现原理">2、MVCC-实现原理</span></h3><ul>
 <li><p>记录中的隐藏字段</p>
 <ul>
 <li><code>DB_TRX_ID</code>：最近修改事务ID，记录插入这条记录或最后一次修改该条记录的事务ID。</li>
@@ -296,7 +304,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="/images/MySQL%E7%9A%84MVCC-03.png" alt="MySQL的MVCC-03.png"><br>    - 生成时机：<br>    - <code>Read Committed（读已提交）</code>：在事务中，每次执行快照读，都会生成<br>    - <code>Repeatable Read（可重复读）</code>：仅在第一次快照都时生成，后续复用（<strong>注意：这里复用的只是ReadView，而不是数据，因为后续如果两次查询中间本事务修改了，也会读取到本事务修改后的数据，因为第一条规则</strong>），因为只有第一次时快照读，同时，如果在两次查询中间修改了该条数据，由于第一条匹配规则，还是会读取当前事务所修改的记录，而不是旧的数据(<strong>有解释一遍</strong>)。 </p>
+<p><img src="/images/MySQL%E7%9A%84MVCC-03.png" alt="MySQL的MVCC-03.png"><br>    - 生成时机：<br>    - <code>Read Committed（读已提交）</code>：在事务中，每次执行快照读，都会生成<br>    - <code>Repeatable Read（可重复读）</code>：仅在第一次快照都时生成，后续复用（<strong>注意：这里复用的只是ReadView，而不是数据，因为后续如果两次查询中间本事务修改了，也会读取到本事务修改后的数据，因为第一条规则</strong>），因为只有第一次时快照读，同时，如果在两次查询中间修改了该条数据，由于第一条匹配规则，还是会读取当前事务所修改的记录，而不是旧的数据(<strong>有解释一遍</strong>)。</p>
 
     </div>
     
@@ -339,7 +347,6 @@
         </transition>
         
     </div>
-
     <script src="/js/main.js"></script>
     <!--评论的显示-->
     

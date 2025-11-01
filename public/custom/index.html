@@ -13,7 +13,7 @@
     />
     <link rel="icon" href="/images/avatar.png" />
 
-    <!--引入对应内容的js文件-->
+    <!--引入对应内容的js文件以及import.ejs文件-->
     <link rel="preconnect" href="https://s4.zstatic.net"/>
 <script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -169,7 +169,7 @@
         
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                const heatmapChartDom = document.getElementById('heatmapChart-1');
+                const heatmapChartDom = document.getElementById('heatmapChart-0');
                 if (heatmapChartDom) {
                     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                     const backgroundColor = isDarkMode ? '#333' : 'transparent';
@@ -324,7 +324,7 @@
         </div>
     
             <!-- Heatmap Chart -->
-            <div id="heatmapChart-1" style="width: 100%; height: 200px; overflow-x: auto; overflow-y: hidden;"></div>
+            <div id="heatmapChart-0" style="width: 100%; height: 200px; overflow-x: auto; overflow-y: hidden;"></div>
             <!-- Footer -->
             
         <div style="text-align: center; font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 20px;">
@@ -365,7 +365,6 @@
         </transition>
         
     </div>
-
     <script src="/js/main.js"></script>
     <!--评论的显示-->
     

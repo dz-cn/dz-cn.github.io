@@ -13,7 +13,7 @@
     />
     <link rel="icon" href="/images/avatar.png" />
 
-    <!--引入对应内容的js文件-->
+    <!--引入对应内容的js文件以及import.ejs文件-->
     <link rel="preconnect" href="https://s4.zstatic.net"/>
 <script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -225,24 +225,50 @@
             <span class="icon">
                 <i class="fa-solid fa-pen"></i>
             </span>
-            <span>3554 字 | 2 代码块</span>
+            <span>3925 字 | 2 代码块</span>
         </span>
     </div>
 
     <!--加密配置，如果启用加密，这执行加密逻辑-->
     
     <div class="content" v-pre>
-        <h3 id="1、索引概述："><a href="#1、索引概述：" class="headerlink" title="1、索引概述："></a>1、索引概述：</h3><p><strong>索引</strong>是一种有序的数据结构，用于高效的查询数据。（可以举个例子：集合查字典是通过目录查询（索引查询）还是一页一页翻（全表扫描））</p>
+        <!-- toc -->
+
+<ul>
+<li><a href="#1-%E7%B4%A2%E5%BC%95%E6%A6%82%E8%BF%B0">1、索引概述：</a></li>
+<li><a href="#2-%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">2、索引数据结构：</a><ul>
+<li><a href="#0-btree-%E7%9A%84%E7%BB%93%E6%9E%84">0、B+Tree 的结构：</a></li>
+<li><a href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%87%E7%94%A8b%E6%A0%91%E7%BB%93%E6%9E%84">1、为什么采用B+树结构：</a></li>
+</ul>
+</li>
+<li><a href="#3-%E7%B4%A2%E5%BC%95%E5%88%86%E7%B1%BB">3、索引分类：</a><ul>
+<li><a href="#1-%E5%9C%A8innodb%E4%B8%AD%E5%82%A8%E5%AD%98%E5%BC%95%E6%93%8E%E4%B8%AD%E5%8F%AF%E5%88%86%E4%B8%BA%E4%B8%A4%E7%A7%8D">1、在innoDB中储存引擎中可分为两种</a></li>
+<li><a href="#2-%E6%9F%A5%E8%AF%A2%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95%E6%97%B6%E4%B8%80%E5%AE%9A%E8%A6%81%E5%9B%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%E5%90%97">2、查询二级索引时一定要回表查询吗？</a></li>
+</ul>
+</li>
+<li><a href="#4-%E7%B4%A2%E5%BC%95%E8%AF%AD%E6%B3%95">4、索引语法</a></li>
+<li><a href="#5-sql%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90">5、SQL性能分析</a></li>
+<li><a href="#6-%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BD%BF%E7%94%A8">6、索引的使用</a><ul>
+<li><a href="#1-%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E6%B3%95%E5%88%99">1、最左前缀法则：</a></li>
+<li><a href="#2-%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E6%B3%95%E5%88%99%E7%9A%84%E5%BA%94%E7%94%A8">2、最左前缀法则的应用</a></li>
+<li><a href="#3-sql%E6%8F%90%E7%A4%BA">3、SQL提示</a></li>
+<li><a href="#4-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E5%85%A8%E9%83%A8%E5%8A%A0%E4%B8%8A%E7%B4%A2%E5%BC%95">4、为什么不能全部加上索引</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h3><span id="1-索引概述">1、索引概述：</span></h3><p><strong>索引</strong>是一种有序的数据结构，用于高效的查询数据。（可以举个例子：集合查字典是通过目录查询（索引查询）还是一页一页翻（全表扫描））</p>
 <p><strong>优点：<strong>提高检索效率，降低IO成本。通过索引排序(B+树具有天然的有序性，按索引键值</strong>顺序存储</strong>，当遇到排序时，直接按照链表遍历输出即可，不需要CPU参与排序)，降低CPU的消耗。</p>
 <p>**缺点：**索引也会占用存储空间，并且在插入和删除数据时，需要维护索引结构。</p>
-<h3 id="2、索引数据结构："><a href="#2、索引数据结构：" class="headerlink" title="2、索引数据结构："></a>2、索引数据结构：</h3><h4 id="0、B-Tree-的结构："><a href="#0、B-Tree-的结构：" class="headerlink" title="0、B+Tree 的结构："></a>0、B+Tree 的结构：</h4><p>​     ① B+树的结点主要分为两类：</p>
+<h3><span id="2-索引数据结构">2、索引数据结构：</span></h3><h4><span id="0-btree-的结构">0、B+Tree 的结构：</span></h4><p>​     ① B+树的结点主要分为两类：</p>
 <p>​         1）内部节点：主存储索引键和指向结点的指针，不存储实际数据，每个内部结点包含k个键和k+1个子指针，键用于划分子节点的区间。</p>
 <p>​          2）叶子结点：存储完整的键值对，或指向数据的指针，并通过双向链表按<strong>顺序</strong>连接。</p>
 <p>​     ② 核心设计：</p>
 <p>​          1）数据与索引分离：内部节点存储索引键，子节点存储实际的数据，单个节点可容纳多个值，有效的降低树的高度。</p>
 <p>​          2）叶子节点链表化，形成有序的线性结构，显著的提升了范围查询，排序等的效率。</p>
 <p>​          3）所有叶子节点位于同一层级，因为所有查询必须到达叶子节点，查询时间稳定为log(n)</p>
-<h4 id="1、为什么采用B-树结构："><a href="#1、为什么采用B-树结构：" class="headerlink" title="1、为什么采用B+树结构："></a>1、为什么采用B+树结构：</h4><ul>
+<h4><span id="1-为什么采用b树结构">1、为什么采用B+树结构：</span></h4><ul>
 <li><strong>hash表</strong>：使用唯一的key查询value，时间复杂度为 O(1) ，很快，但是没有办法做范围查询，也没办法排序。</li>
 <li><strong>二叉排序树</strong>：左节点小于根，右节点大于根，中序遍历就是有序的，可以排序，也可以范围查询，但是在顺序插入时，会退化为链表导致查询性能变的很差。</li>
 <li><strong>平衡二叉树</strong>：在插入节点时采用旋转操作，让二叉树保持平衡，左右子树的高度差不大于 1，能避免极端情况下退化为链表，但是由于平衡二叉树追求绝对的平衡，所以在插入，删除数据时，会频繁的左旋右旋保持平衡，在数据库中，频繁的旋转就会带来大量的磁盘IO，降低性能。</li>
@@ -250,7 +276,7 @@
 <li><strong>B树</strong>，B树多路平衡排序树，一个节点有n个子节点，数据量大的情况下，树高也比较低，但是，B树的节点既存数据，也存索引，因此一个节点能存储的索引比较少，当数据量大的时候，树高就会很高，并且B树做范围查询时，需要回溯树结构，会产生很多的随机IO，查询效率较低。而且B树的查询效率不稳定，对于较低层的结果查询效率快，较高层的结果查询效率慢。</li>
 <li><strong>B + 树</strong>，也是多路平衡排序树，而且B+树的非叶子节点只存索引值，不存数据，因此单个节点能存的索引就变多了，树的高度更低，查询性能更好，而且B+树的数据都存在叶子节点，并且数据都有双向链表连接，范围查询时，只需要遍历链表，不用回溯树结构。</li>
 </ul>
-<h3 id="3、索引分类："><a href="#3、索引分类：" class="headerlink" title="3、索引分类："></a>3、索引分类：</h3><h4 id="1、在innoDB中储存引擎中可分为两种"><a href="#1、在innoDB中储存引擎中可分为两种" class="headerlink" title="1、在innoDB中储存引擎中可分为两种"></a>1、在innoDB中储存引擎中可分为两种</h4><p><strong>注意：底层结构都是B+Tree，只不过是叶子节点的数据不同</strong></p>
+<h3><span id="3-索引分类">3、索引分类：</span></h3><h4><span id="1-在innodb中储存引擎中可分为两种">1、在innoDB中储存引擎中可分为两种</span></h4><p><strong>注意：底层结构都是B+Tree，只不过是叶子节点的数据不同</strong></p>
 <ul>
 <li><p>唯一索引（了解）：不可重复</p>
 </li>
@@ -271,8 +297,8 @@
 <li><p>查询流程：<br><img src="/./images/MySQL%E7%B4%A2%E5%BC%95-01.png" alt="MySQL索引-01.png"></p>
 </li>
 </ul>
-<h4 id="2、查询二级索引时一定要回表查询吗？"><a href="#2、查询二级索引时一定要回表查询吗？" class="headerlink" title="2、查询二级索引时一定要回表查询吗？"></a>2、查询二级索引时一定要回表查询吗？</h4><p>不是。如果只查询id，二级索引树的结点就有id，就不用回表查询了，也就是当一个索引包含所有需要查询的值的时候，就不需要回表查询了，这种<strong>情况</strong>就是<strong>覆盖索引</strong>，而减少回表查询，就是尽可能地做到覆盖索引，如果一个索引列有多个字段，就能增加覆盖索引地概率，这种索引就是<strong>联合索引</strong>，所谓联合索引就是对表中地多个字段创建索引。</p>
-<h3 id="4、索引语法"><a href="#4、索引语法" class="headerlink" title="4、索引语法"></a>4、索引语法</h3><pre><code class="language-mysql">-- 创建索引：[唯一索引|全文索引] index 索引名 on 表名 (字段名1,字段2,...)
+<h4><span id="2-查询二级索引时一定要回表查询吗">2、查询二级索引时一定要回表查询吗？</span></h4><p>不是。如果只查询id，二级索引树的结点就有id，就不用回表查询了，也就是当一个索引包含所有需要查询的值的时候，就不需要回表查询了，这种<strong>情况</strong>就是<strong>覆盖索引</strong>，而减少回表查询，就是尽可能地做到覆盖索引，如果一个索引列有多个字段，就能增加覆盖索引地概率，这种索引就是<strong>联合索引</strong>，所谓联合索引就是对表中地多个字段创建索引。</p>
+<h3><span id="4-索引语法">4、索引语法</span></h3><pre><code class="language-sql">-- 创建索引：[唯一索引|全文索引] index 索引名 on 表名 (字段名1,字段2,...)
 -- 索引表的名称一般为：idx_表名_字段名
 create [UNIQUE|FULLTEXT] index index_name on table_name (index_col_name,...);
 -- 查看索引
@@ -280,7 +306,7 @@ show index from table_name
 -- 删除索引
 drop index index_name on table_name
 </code></pre>
-<h3 id="5、SQL性能分析"><a href="#5、SQL性能分析" class="headerlink" title="5、SQL性能分析"></a>5、SQL性能分析</h3><pre><code class="language-mysql">-- 查看数据库所有语句的执行频次：session表示当前会话的，global表示全局
+<h3><span id="5-sql性能分析">5、SQL性能分析</span></h3><pre><code class="language-sql">-- 查看数据库所有语句的执行频次：session表示当前会话的，global表示全局
 show [session|global] status like &#39;Com_______&#39;;
 -- 慢查日志
 	-- 查看慢查询日志是否开启
@@ -320,12 +346,12 @@ show [session|global] status like &#39;Com_______&#39;;
 <li><p><code>all</code>：全表扫描</p>
 </li>
 </ul>
-<h3 id="6、索引的使用"><a href="#6、索引的使用" class="headerlink" title="6、索引的使用"></a>6、索引的使用</h3><h4 id="1、最左前缀法则："><a href="#1、最左前缀法则：" class="headerlink" title="1、最左前缀法则："></a>1、最左前缀法则：</h4><p>​      如果索引了多列，（联合索引），要遵循最左前缀法则，指的是查询从索引的最左列开始，并且不跳过索引中的列。如果跳过了某一列，索引将部分失效（后面的字段索引也失效）</p>
+<h3><span id="6-索引的使用">6、索引的使用</span></h3><h4><span id="1-最左前缀法则">1、最左前缀法则：</span></h4><p>​      如果索引了多列，（联合索引），要遵循最左前缀法则，指的是查询从索引的最左列开始，并且不跳过索引中的列。如果跳过了某一列，索引将部分失效（后面的字段索引也失效）</p>
 <blockquote>
 <p>   基本原理就是：联合索引有多个索引列，因此排序地时候会<strong>根据索引列的顺序</strong>去排序，查找的时候会根据<strong>索引列的顺序从左到右依次匹配</strong></p>
 <p>   就是如果一个索引表关联了多个字段，那末，查询时必须包含最左边的字段时，索引才生效，否则，索引不生效。如果关联的是三个字段，如：A B C 那么，在查询时，如果where A&#x3D;’‘，B&#x3D; ’‘，C&#x3D; ’‘ ；索引生效，如果B &#x3D; ’‘，C&#x3D;’‘。索引失效，<strong>因为B,C是建立在A的有序的基础上</strong>，不存在A，后面B,C就是乱序的，如果：A&#x3D;’‘，C&#x3D;’‘；A索引生效，C索引失效；应为C是建立在B上的，如果 C B A 也走索引，而且全部生效，因为MySQL的优化器会自动把索引列进行重排序。</p>
 </blockquote>
-<h4 id="2、最左前缀法则的应用"><a href="#2、最左前缀法则的应用" class="headerlink" title="2、最左前缀法则的应用"></a>2、最左前缀法则的应用</h4><ul>
+<h4><span id="2-最左前缀法则的应用">2、最左前缀法则的应用</span></h4><ul>
 <li><p>范围查询：如果使用了&gt; 或 &lt; 的字段，则其后面的索引失效，但是，如果使用的是 &gt;&#x3D; 或 &lt;&#x3D; 则不失效。</p>
 </li>
 <li><p>索引运算：如果索引字段进行函数运算，则索引失效</p>
@@ -343,11 +369,11 @@ show [session|global] status like &#39;Com_______&#39;;
 <li><p>前缀索引：在处理比较长的索引的时候。语法：<code>create index idx_xxxx on table_name(column(n))</code>表示我要将字符串的一部分前缀建立索引从而节省索引的空间。通过数据的 字段不重复的记录数 &#x2F; 总记录数 的值，如果越接近 1 ，就越好。</p>
 </li>
 </ul>
-<h4 id="3、SQL提示"><a href="#3、SQL提示" class="headerlink" title="3、SQL提示"></a>3、SQL提示</h4><p>1、<code>use index(索引名)</code> ：可以用哪个索引</p>
+<h4><span id="3-sql提示">3、SQL提示</span></h4><p>1、<code>use index(索引名)</code> ：可以用哪个索引</p>
 <p>2、<code>ignore index(索引名)</code> ：忽略哪个索引</p>
 <p>3、<code>force index(索引名)</code> ：必须使用哪个索引</p>
 <p><code>select * from china_zipcode use index();</code></p>
-<h4 id="4、为什么不能全部加上索引"><a href="#4、为什么不能全部加上索引" class="headerlink" title="4、为什么不能全部加上索引"></a>4、为什么不能全部加上索引</h4><p>索引过多，索引所占用的内存也会增多，并且在增加或删除数据是，需要维护的索引结构就会很多，降低增删改的性能。一般最多不要超过 5 个</p>
+<h4><span id="4-为什么不能全部加上索引">4、为什么不能全部加上索引</span></h4><p>索引过多，索引所占用的内存也会增多，并且在增加或删除数据是，需要维护的索引结构就会很多，降低增删改的性能。一般最多不要超过 5 个</p>
 
     </div>
     
@@ -390,7 +416,6 @@ show [session|global] status like &#39;Com_______&#39;;
         </transition>
         
     </div>
-
     <script src="/js/main.js"></script>
     <!--评论的显示-->
     

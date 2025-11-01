@@ -13,7 +13,7 @@
     />
     <link rel="icon" href="/images/avatar.png" />
 
-    <!--引入对应内容的js文件-->
+    <!--引入对应内容的js文件以及import.ejs文件-->
     <link rel="preconnect" href="https://s4.zstatic.net"/>
 <script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -225,29 +225,43 @@
             <span class="icon">
                 <i class="fa-solid fa-pen"></i>
             </span>
-            <span>1580 字 | 0 代码块</span>
+            <span>1752 字 | 0 代码块</span>
         </span>
     </div>
 
     <!--加密配置，如果启用加密，这执行加密逻辑-->
     
     <div class="content" v-pre>
-        <h3 id="1、事务的ACID模型"><a href="#1、事务的ACID模型" class="headerlink" title="1、事务的ACID模型"></a>1、事务的ACID模型</h3><p>1、<strong>原子性</strong>：是最小分割的操作单元，要么全部成功，要么全部失败。</p>
+        <!-- toc -->
+
+<ul>
+<li><a href="#1-%E4%BA%8B%E5%8A%A1%E7%9A%84acid%E6%A8%A1%E5%9E%8B">1、事务的ACID模型</a></li>
+<li><a href="#2-%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%97%AE%E9%A2%98">2、并发下的事务问题</a></li>
+<li><a href="#4-%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E8%A7%A3%E5%86%B3%E5%B9%B6%E5%8F%91%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%97%AE%E9%A2%98">4、事务的隔离级别(解决并发事务的问题)：</a></li>
+<li><a href="#5-%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%8E%9F%E7%90%86">5、事务的原理</a><ul>
+<li><a href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0">1、基本概述</a></li>
+<li><a href="#2-%E8%AF%A6%E7%BB%86%E8%A7%A3%E9%87%8A">2、详细解释</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h3><span id="1-事务的acid模型">1、事务的ACID模型</span></h3><p>1、<strong>原子性</strong>：是最小分割的操作单元，要么全部成功，要么全部失败。</p>
 <p>2、<strong>一致性</strong>：事务完成时，必须使所有的数据都保持一致，即：事务前后数据的完整性和一致性。</p>
 <p>3、<strong>隔离性</strong>：数据库系统提供的隔离机制，通过不同的隔离级别，保证事务在不受外部并发操作影响的独立环境下运行。</p>
 <p>4、<strong>持久性</strong>：事务一旦提交或回滚，它对数据库中的数据的改变就是永久的，即使机器发生故障，也可以通过日志等方式恢复数据。</p>
-<h3 id="2、并发下的事务问题"><a href="#2、并发下的事务问题" class="headerlink" title="2、并发下的事务问题"></a>2、并发下的事务问题</h3><p>1、<strong>脏读</strong>：一个事务读取到另一个事务还没有提交的数据。</p>
+<h3><span id="2-并发下的事务问题">2、并发下的事务问题</span></h3><p>1、<strong>脏读</strong>：一个事务读取到另一个事务还没有提交的数据。</p>
 <p>2、<strong>不可重复读</strong>：一个事务先后读取同一条记录，但是两次读取的数据不同。</p>
 <p>3、<strong>幻读</strong>：在<strong>解决</strong>不可重复度的前提下，一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据已经存在，好像出现了一个幻影，再次查询又查不到，因为已经解决了不可重读的问题，因此会出现幻读的问题。前后两次查询的数据不一致，第二次查到了第一次不存在的数据。</p>
-<h3 id="4、事务的隔离级别-解决并发事务的问题-："><a href="#4、事务的隔离级别-解决并发事务的问题-：" class="headerlink" title="4、事务的隔离级别(解决并发事务的问题)："></a>4、事务的隔离级别(解决并发事务的问题)：</h3><p>1、<code>Read uncommitted</code> ：什么都不能解决。（读未提交，可以读到其他事务尚未提交的数据）</p>
+<h3><span id="4-事务的隔离级别解决并发事务的问题">4、事务的隔离级别(解决并发事务的问题)：</span></h3><p>1、<code>Read uncommitted</code> ：什么都不能解决。（读未提交，可以读到其他事务尚未提交的数据）</p>
 <p>2、<code>Read committed</code> ：只能解决脏读。（读已提交，只读其他事务已经提交的数据，不能读取未提交的更改，原因就是：在读取数据时加入了共享锁，但是，只是在读取时暂时，在事务提交或回滚后，就会释放锁，从而解决脏读问题）</p>
 <p>3、<code>Repeatable Read(默认)</code> ：只解决脏读、不可重复读。（会在整个事务期间持有锁，解决脏读和不可重复读）</p>
 <p>4、<code>Serializable</code> ：所有的都能解决。（加范围锁，会对查询的范围加锁，并且事务会按照一定的顺序排队执行，不会出现并发问题）</p>
-<h3 id="5、事务的原理"><a href="#5、事务的原理" class="headerlink" title="5、事务的原理"></a>5、事务的原理</h3><h5 id="1、基本概述"><a href="#1、基本概述" class="headerlink" title="1、基本概述"></a>1、基本概述</h5><ul>
+<h3><span id="5-事务的原理">5、事务的原理</span></h3><h5><span id="1-基本概述">1、基本概述</span></h5><ul>
 <li>原子性、一致性、持久性：是通过底层的两个日志文件来实现的，redo log 、undo log</li>
 <li>隔离性：是通过锁机制和MVCC(多版本并发控制)来实现的。</li>
 </ul>
-<h5 id="2、详细解释"><a href="#2、详细解释" class="headerlink" title="2、详细解释"></a>2、详细解释</h5><ul>
+<h5><span id="2-详细解释">2、详细解释</span></h5><ul>
 <li><strong>持久性</strong><ul>
 <li>利用 <code>redo log</code> 实现。重做日志，记录事务提交时的数据<strong>物理页</strong>修改，即，<code>redo log</code>记录的是，<strong>某个页的某个数据从什么值变成什么值</strong>。</li>
 <li>该日志主要分为两个部分<ul>
@@ -311,7 +325,6 @@
         </transition>
         
     </div>
-
     <script src="/js/main.js"></script>
     <!--评论的显示-->
     
