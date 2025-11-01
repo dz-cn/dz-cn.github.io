@@ -9,8 +9,8 @@ lang: zh
 categories:
   - Java 基础篇
 type: post
-wordCount: 377
-charCount: 5024
+wordCount: 396
+charCount: 5404
 imgCount: 0
 vidCount: 0
 wsCount: 0
@@ -19,6 +19,7 @@ readTime: 约3分钟
 abbrlink: 43ade6e4
 date: 2025-10-27 22:26:27
 ---
+<!-- toc -->
 ### 1、HashMap 的底层数据结构是什么?
 
 ​      在JDK 8 之前，主要通过数组 + 链表的方式实现。在JDK 8之后，主要通过数组 + 链表 + 红黑树的方式实现。核心变量为Node 类型的数组 table 变量。由 transient 修饰，并重写了readObject 和 writeObject 方法实现序列化相关操作。

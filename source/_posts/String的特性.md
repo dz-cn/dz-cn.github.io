@@ -9,16 +9,17 @@ lang: zh
 categories:
   - Java 基础篇
 type: post
-wordCount: 111
-charCount: 2123
+wordCount: 134
+charCount: 2565
 imgCount: 0
 vidCount: 0
 wsCount: 0
 cbCount: 0
-readTime: 约47秒
+readTime: 约56秒
 abbrlink: 70e3fcb2
 date: 2025-10-27 22:23:41
 ---
+<!-- toc -->
 ### 1、String 为什么是不可变的？
 
 ##### 1）原因：

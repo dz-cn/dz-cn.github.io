@@ -9,15 +9,17 @@ lang: zh
 categories:
   - MySQL 篇
 type: post
-wordCount: 107
-charCount: 2507
+wordCount: 166
+charCount: 3279
 imgCount: 0
 vidCount: 0
 wsCount: 0
 cbCount: 0
-readTime: 约46秒
+readTime: 约1分钟
+abbrlink: d940f18d
 date: 2025-10-28 16:40:31
 ---
+<!-- toc -->
 ### 1、锁的分类
 
 - 全局锁：锁住整个数据库，也就是锁住数据库中所有的表。

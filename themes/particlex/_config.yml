@@ -11,6 +11,7 @@ background:
     - /images/background/02.jpeg
 #    - /images/background/03.png
 #    - /images/background/04.png
+#    - /images/background/back.gif
 
 # 加载动画图片
 loading: /images/loading.gif
@@ -74,8 +75,13 @@ card:
   description: |
       一条努力向上的*咸鱼*
   iconLinks:
+    github:
+      name: github # 图标名
+      theme: solid
+      link: https://github.com/dz-cn
+
   friendLinks:
-      原作者: https://argvchs.github.io
+    原作者: https://argvchs.github.io
 
 # 在主题配置中添加自定义配置
 custom:

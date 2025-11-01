@@ -28,7 +28,6 @@
                 }
                 const colors = theme.colors.filter((color) => color);
                 let id = getStringHash(post.categories.data[0].name) % colors.length;
-                console.log(id)
             %>
             <a href="<%- url_for(post.categories.data[0].path) %>" style="color: <%- colors[id]%>">
                 <span class="icon">

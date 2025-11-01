@@ -9,15 +9,17 @@ lang: zh
 categories:
   - MySQL 篇
 type: post
-wordCount: 59
-charCount: 1539
+wordCount: 63
+charCount: 1617
 imgCount: 3
 vidCount: 0
 wsCount: 0
 cbCount: 0
 readTime: 约1分钟
+abbrlink: 121cc63b
 date: 2025-10-28 16:41:35
 ---
+<!-- toc -->
 ### 1、MVCC-基本概念
 
 - 当前读

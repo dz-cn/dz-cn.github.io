@@ -14,7 +14,11 @@ mixins.highlight = {
             let codes = document.querySelectorAll("pre");
             for (let i of codes) {
                 let code = i.textContent;
-                let language = [...i.classList, ...i.firstChild.classList][0] || "plaintext";
+                // 从合并的类名数组中，找到以 "language-" 开头的类名
+                const langClass = [...i.classList, ...i.firstChild.classList]
+                    .find(cls => cls.startsWith('language-'));
+                // 提取语言名（去掉 "language-" 前缀），默认用 "text"
+                const language = langClass ? langClass.replace('language-', '') : 'text';
                 let highlighted;
                 try {
                     highlighted = hljs.highlight(code, { language }).value;

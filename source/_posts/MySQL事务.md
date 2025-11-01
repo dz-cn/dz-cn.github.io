@@ -9,15 +9,17 @@ lang: zh
 categories:
   - MySQL 篇
 type: post
-wordCount: 65
-charCount: 1580
+wordCount: 73
+charCount: 1752
 imgCount: 0
 vidCount: 0
 wsCount: 0
 cbCount: 0
-readTime: 约30秒
+readTime: 约33秒
+abbrlink: f91535f
 date: 2025-10-28 16:31:28
 ---
+<!-- toc -->
 ### 1、事务的ACID模型
 
 1、**原子性**：是最小分割的操作单元，要么全部成功，要么全部失败。

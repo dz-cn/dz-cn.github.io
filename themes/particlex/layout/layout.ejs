@@ -29,7 +29,7 @@
     />
     <link rel="icon" href="<%- url_for(theme.avatar) %>" />
 
-    <!--引入对应内容的js文件-->
+    <!--引入对应内容的js文件以及import.ejs文件-->
     <%- partial("import", { type }) %>
 </head>
 <body>
@@ -64,7 +64,6 @@
         </transition>
         <% } %>
     </div>
-
     <script src="<%- url_for("/js/main.js") %>"></script>
     <!--评论的显示-->
     <% if (type === "post" && page.comments) { %>

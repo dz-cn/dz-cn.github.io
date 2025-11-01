@@ -9,16 +9,17 @@ lang: zh
 categories:
   - Java 基础篇
 type: post
-wordCount: 49
-charCount: 1853
+wordCount: 67
+charCount: 2245
 imgCount: 0
 vidCount: 0
 wsCount: 0
 cbCount: 0
-readTime: 约24秒
+readTime: 约30秒
 abbrlink: 6ff8c531
 date: 2025-10-27 22:25:43
 ---
+<!-- toc -->
 ### 1、ArrayList 的底层数据结构是什么？
 
 ​      ArrayList 的底层数据结构是 Object 类型的 elementData 数组，该数组具有动态可扩容机制，即动态可扩容数组。该数组由 transient 修饰，标记为不可序列化，用来解决在数组序列化时，会将空元素也序列化的问题。同时实现了 writeObject 和 readObject 方法，来手动实现有效元素的序列化和反序列化。

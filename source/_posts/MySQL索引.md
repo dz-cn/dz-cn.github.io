@@ -9,15 +9,17 @@ lang: zh
 categories:
   - MySQL 篇
 type: post
-wordCount: 129
-charCount: 3554
+wordCount: 146
+charCount: 3925
 imgCount: 3
 vidCount: 0
 wsCount: 0
 cbCount: 2
 readTime: 约2分钟
+abbrlink: 43a71ae4
 date: 2025-10-28 16:32:34
 ---
+<!-- toc -->
 ### 1、索引概述：
 
 **索引**是一种有序的数据结构，用于高效的查询数据。（可以举个例子：集合查字典是通过目录查询（索引查询）还是一页一页翻（全表扫描））
@@ -79,7 +81,7 @@ date: 2025-10-28 16:32:34
 
 ### 4、索引语法
 
-```mysql
+```sql
 -- 创建索引：[唯一索引|全文索引] index 索引名 on 表名 (字段名1,字段2,...)
 -- 索引表的名称一般为：idx_表名_字段名
 create [UNIQUE|FULLTEXT] index index_name on table_name (index_col_name,...);
@@ -91,7 +93,7 @@ drop index index_name on table_name
 
 ### 5、SQL性能分析
 
-```mysql
+```sql
 -- 查看数据库所有语句的执行频次：session表示当前会话的，global表示全局
 show [session|global] status like 'Com_______';
 -- 慢查日志
