@@ -1,0 +1,655 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head><!-- hexo injector head_begin start --><script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script><!-- hexo injector head_begin end -->
+    <meta charset="utf-8" />
+    <title>Minio之分片上传 | DZ博客</title>
+    <meta name="author" content="dz.cn" />
+    <meta name="description" content="稳-静-思" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.png" />
+
+    <!--引入对应内容的js文件以及import.ejs文件-->
+    <link rel="preconnect" href="https://s4.zstatic.net"/>
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.cn"/>
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin/>
+<link
+        rel="stylesheet"
+        href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+    <script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <script src="/js/lib/highlight.js"></script>
+
+
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+    <script src="/js/lib/math.js"></script>
+
+
+    <script src="/js/lib/preview.js"></script>
+
+
+
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/main.css"/>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta name="generator" content="Hexo 8.0.0"></head>
+<body>
+    <div id="layout">
+        <!--加载动画-->
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>加载中...</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>DZ博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;主页</span>
+        </a>
+        
+        <a href="/echarts">
+            <i class="fa-solid fa-square-poll-horizontal fa-fw"></i>
+            <span>&ensp;热力图</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;文章</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;类型</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;标签</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;DZ博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">主页</div>
+                    </div>
+                </a>
+                
+                <a href="/echarts">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-square-poll-horizontal fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">热力图</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">文章</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">类型</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">标签</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+
+        <!--主体-->
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <!--当前要渲染的内容-->
+            <div class="article">
+    <!--文章标题-->
+    <div>
+        <h1>Minio之分片上传</h1>
+    </div>
+
+    <!--每篇文章开头的信息-->
+    <div class="info">
+        <!--日期-->
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/4/10
+        </span>
+        <!--判断是否有分类-->
+        
+        <span class="category">
+            
+            <a href="/categories/default/" style="color: #26a69a">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                default
+            </a>
+        </span>
+        
+        <!--判断是否有标签-->
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/default/" style="color: #26a69a">
+                    default
+                </a>
+            </span>
+            
+        </span>
+        
+
+        <!--本文的阅读量-->
+        <span style="margin-right: 15px">
+            <span class="icon">
+                <i class="fa-solid fa-eye"></i>
+            </span>
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+
+        <br>
+        <!--本文的字数统计-->
+        <span style="margin-right: 15px;">
+            <span class="icon">
+                <i class="fa-solid fa-pen"></i>
+            </span>
+            <span>7649 字 | 4 代码块</span>
+        </span>
+    </div>
+
+    <!--加密配置，如果启用加密，这执行加密逻辑-->
+    
+    <div class="content" v-pre>
+        <!-- toc -->
+
+<ul>
+<li><a href="#minio-%E4%B9%8B%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0">Minio 之分片上传</a><ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E8%87%AA%E5%8A%A8sdk-span-altshakevsspan-%E6%89%8B%E5%8A%A8url">自动SDK <span alt="shake">VS</span> 手动URL</a><ul>
+<li><a href="#1-%E8%87%AA%E5%8A%A8sdk">1、自动SDK</a></li>
+<li><a href="#2-%E6%89%8B%E5%8A%A8url">2、手动URL</a></li>
+</ul>
+</li>
+<li><a href="#%E5%89%8D%E7%AB%AF%E9%83%A8%E5%88%86%E5%85%B3%E9%94%AE%E6%BA%90%E7%A0%81">前端部分关键源码</a></li>
+<li><a href="#%E5%90%8E%E7%AB%AF%E6%BA%90%E7%A0%81">后端源码</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="minio-之分片上传">Minio 之分片上传</span></h1><h2><span id="前言">前言</span></h2><p>关于分片上传，每个开发人员都有所耳闻。但是，问到具体的细节，相信也会不知所措。本期，就给你揉碎了讲讲，利用 Minio 的URL预签名策略，实现分片上传的机制。</p>
+<h2><span id="自动sdk-vs-手动url">自动SDK <span alt="shake">VS</span> 手动URL</span></h2><h3><span id="1-自动sdk">1、自动SDK</span></h3><pre><code class="language-java">// 自动SDK
+MINIO_CLIENT.uploadObject()
+</code></pre>
+<p>相信很多人都没有在意，一行短短的代码，内部却实现了当文件过大时，自动分片上传的逻辑，以及断点续传的逻辑。没错，新版&lt;9.0.0&gt;的 Minio 是没有直接提供分片上传的方法的。但是也将普通的文件上传集成到了一个里面，简化了开发，提高了效率，让开发者无需为了分片操心，对开发者可谓是无微不至。</p>
+<p>但是这样仍然带来了问题。由于隐藏了分片逻辑，导致开发者无法感知分片的进度，同时，分片和上传都是在后端进行的，因此极大的消耗了服务器的带宽和CPU的资源。当并发量较大的时候，有可能导致CPU连续高强度的工作而出现服务卡顿的现象。</p>
+<h3><span id="2-手动url">2、手动URL</span></h3><p>“手动RUL”，本质上就是利用 URL 的预签名上传链接，自己实现一套分片上传的方法。通过设置与预签名的有效期、文件大小，来确保上传链接的安全性。前端利用URL上传分片，保证后端只需提供一次URL，保证后端服务的高可用性，同时有利于前端监控上传进度，给用户更好的体验。最后前端通过重试回调逻辑，保证过期URL的重新请求。<br>亲测解决以下五大问题：</p>
+<ul>
+<li>文件不存在、分片不存在</li>
+<li>文件存在、分片全部不存在</li>
+<li>文件存在、分片部分不存在</li>
+<li>文件不存在、分片全部存在</li>
+<li>文件不存在、分片部分存在</li>
+</ul>
+<h2><span id="前端部分关键源码">前端部分关键源码</span></h2><pre><code class="language-js">try {
+        // 计算整个文件的md5
+        const fileMd5 = await calculateMD5(file);
+        // 计算每个分片的信息
+        const chunks = await shardFile(file);
+
+        const suffix = file.name.substring(file.name.lastIndexOf(&#39;.&#39;) + 1);
+        const progressBar = fileDiv.querySelector(&#39;.progress&#39;);
+        const progressText = fileDiv.querySelector(&#39;.progress-text&#39;);
+
+        let len = chunks.length;
+
+        fileDiv.style.display = &#39;block&#39;;
+        preparingDiv.remove();
+
+        // 上来先尝试合并一次(解决分片已存在的问题)
+        let list = await fetch(&#39;&#39;, {
+            method: &#39;PUT&#39;
+        }).then(response =&gt; response.json().then(date =&gt; date))
+
+        if(list != null &amp;&amp; list.length === 0) {
+            console.log(&#39;所有分片全部存在,已将其合并!&#39;)
+            updateProgress(progressBar, progressText, 100);
+            return
+        }
+
+        // 构建请求参数
+        const chunkFormData = new FormData();
+        chunkFormData.append(&#39;md5File&#39;, fileMd5);
+        chunkFormData.append(&#39;chunkIds&#39;, list);
+        chunkFormData.append(&#39;suffix&#39;, suffix);
+
+        // 记录开始时间
+        const time = Date.now();
+
+        // 上传并合并
+        let result = await handleFile(list,chunkFormData,len,chunks,progressBar,progressText,fileMd5,suffix)
+
+        // 回调判断,并合并
+        let count = 5;
+        while(result != null &amp;&amp; result.length &gt; 0 &amp;&amp; count &gt; 0) {
+            console.log(&#39;文件合并失败，正在检查分片并重新上传...&#39;, count)
+            result = await handleFile(list,chunkFormData,len,chunks,progressBar,progressText,fileMd5,suffix)
+            count --;
+        }
+
+        if(result != null &amp;&amp; result.length &gt; 0 &amp;&amp; count &gt; 0) {
+            console.log(&#39;文件合并失败，请重新上传&#39;)
+            return
+        }
+
+        console.log(`文件合并成功`);
+        updateProgress(progressBar, progressText, 100);
+
+    } catch (error) {
+        console.error(&#39;文件处理失败:&#39;);
+    }
+</code></pre>
+<pre><code class="language-js">async function handleFile(list, chunkFormData, len, chunks, progressBar, progressText, fileMd5, suffix) {
+    // 获取上传 URL
+    const urls = await fetch(``, {
+        method: &#39;PUT&#39;,
+        body: chunkFormData
+    }).then(response =&gt; response.json().then(date =&gt; date.urls));
+
+    if(urls == null) {
+        // 文件已经存在---秒传
+        return []
+    }
+
+    // 逐个分片上传
+    for(let i = 0;i &lt; list.length;i++) {
+        const index = list[i];
+        const url = urls[i]
+        const time = Date.now();
+
+        await fetch(url, {
+            method: &#39;PUT&#39;,
+            body: chunks[index-1].blob
+        });
+
+
+        console.log(`分片上传成功`);
+
+        const progress = (i / len * 99).toFixed(2);
+        updateProgress(progressBar, progressText, progress);
+    }
+
+    // 合并文件
+    const result = await fetch(``, {
+        method: &#39;PUT&#39;
+    }).then(response =&gt; response.json().then(date =&gt; date));
+
+    console.log(&quot;合并返回结果: &quot;,result)
+    return result
+}
+</code></pre>
+<h2><span id="后端源码">后端源码</span></h2><pre><code class="language-java">package dz.cn.minio.util;
+
+import io.minio.*;
+import io.minio.errors.ErrorResponseException;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
+import org.springframework.util.FileSystemUtils;
+import javax.annotation.Resource;
+import java.io.BufferedInputStream;
+import java.io.FileDescriptor;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
+/**
+ * ClassName:MinioFileUtil
+ * Description:
+ * @Author:独酌
+ * @Create:2024/12/8 11:21
+ */
+@Slf4j
+@Component
+public class MinioFileUtil {
+
+    /*
+      Minio的连接对象
+    */
+    @Getter //增加可扩展、自定义性，用于获取连接对象，直接用类名掉用 【MinioFileUtil.getMINIO_CLIENT()】
+    private static final MinioClient MINIO_CLIENT;
+    private static final String BUCKET = &quot;dz-test&quot;;
+    private static final String BUCKET_TEMP = &quot;temp&quot;;
+    private static final String HOST = &quot;http://192.168.59.128:9000&quot;;
+    private static final String ACCESS_KEY = &quot;minioadmin&quot;;
+    private static final String SECRET_KEY = &quot;minioadmin&quot;;
+
+    static {
+        MINIO_CLIENT = MinioClient.builder()
+                .endpoint(HOST)
+                .credentials(ACCESS_KEY, SECRET_KEY)
+                .build();
+        try {
+            initBucket();
+            log.info(&quot;✅ Minio 初始化成功&quot;);
+        } catch (Exception e) {
+            log.error(&quot;Minio连接失败！&quot;,e);
+        }
+    }
+
+
+    /**
+     * 普通的使用 minio 上传文件
+     *
+     * @param file     文件流
+     * @param fileSize 文件名 大小
+     * @param path     文件储存的路径（xxx/xxx/）
+     * @param suffix   文件后缀
+     * @return 文件的存储路径，支持浏览器的图片预览
+     */
+    public String ordinaryUploadFile(InputStream file, long fileSize, String path, String suffix, String contentType) {
+        try {
+            // 获取文件的hash值
+            BufferedInputStream bis = new BufferedInputStream(file);
+            bis.mark(Integer.MAX_VALUE);
+            String md5 = DigestUtils.md5DigestAsHex(bis);
+            String name = md5 + suffix;
+            bis.reset(); // 重置文件流，以便后续的上传
+            // 判断存不存在
+            if(isExistObject(path + name)){
+                log.info(&quot;此文件已经上传过了&quot;);
+                return null;
+            }
+            MINIO_CLIENT.putObject(
+                    PutObjectArgs.builder()
+                            .bucket(BUCKET)
+                            .contentType(contentType)
+                            .stream(bis, fileSize, -1L)
+                            .object(path + name)
+                            .build());
+            log.info(&quot;单文件上传成功&quot;);
+            return HOST + &quot;/&quot; + BUCKET +  &quot;/&quot; + path + name;
+        } catch (Exception e) {
+            log.error(&quot;单文件上传失败&quot;,e);
+        }
+        return null;
+    }
+
+
+    /**
+     * 初始化分片上传,并获取URL
+     * @param fileMD5 文件的MD5
+     * @param suffix 后缀名
+     * @return 一次性将所有需要上传的URL返回给前端
+     */
+    public List&lt;String&gt; initMultipart(String fileMD5,List&lt;Integer&gt; chunkIds, String suffix) {
+        boolean existObject = isExistObject(fileMD5 + &quot;.&quot; + suffix);
+        if(existObject){
+            log.info(&quot;秒传&quot;);
+            return null;
+        } else {
+            try {
+                List&lt;String&gt; urls = new ArrayList&lt;&gt;();
+                for(int i : chunkIds) {
+                    String objectName = fileMD5 + &quot;:&quot; + i + &quot;.&quot; + suffix;
+                    // 返回所需的全部 URL
+                    String objectUrl = MINIO_CLIENT.getPresignedObjectUrl(
+                            GetPresignedObjectUrlArgs.builder()
+                                    .bucket(BUCKET_TEMP)
+                                    .method(Http.Method.PUT)
+                                    .object(objectName)
+                                    .expiry(1, TimeUnit.HOURS)
+                                    .build()
+                    );
+                    urls.add(objectUrl);
+                }
+                return urls;
+            } catch (Exception e) {
+                log.error(&quot;获取全部的URL失败&quot;,e);
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 合并分片
+     * @param fileMD5 整个文件MD5
+     * @param suffix 文件后缀
+     * @param shardCount 分片总数
+     * @return 返回不存在的分片 id
+     */
+    public List&lt;Integer&gt; mergeMultipart(String fileMD5, String suffix, Integer shardCount) {
+        try {
+            String objectName = fileMD5 + &quot;:&quot; + shardCount + &quot;.&quot; + suffix;
+            // 先判断文件是否存在
+            boolean existObject = isExistObject(objectName);
+            if(existObject) {
+                log.info(&quot;此文件已经上传过了&quot;);
+                return new ArrayList&lt;&gt;();
+            }
+
+            // 检查是否所有分片全部存在
+            List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+            for(int i = 1;i &lt;= shardCount;i++) {
+                try {
+                    MINIO_CLIENT.statObject(StatObjectArgs.builder()
+                            .bucket(BUCKET_TEMP)
+                            .object(fileMD5 + &quot;:&quot; + i + &quot;.&quot; + suffix)
+                            .build()
+                    );
+                } catch (ErrorResponseException e) {
+                    log.warn(&quot;分片&lt;{}&gt;不存在&quot;,i);
+                    list.add(i);
+                }
+            }
+
+            if(!list.isEmpty()) return list;
+
+            List&lt;SourceObject&gt; sources = new ArrayList&lt;&gt;();
+            for(int i = 1;i &lt;= shardCount;i++) {
+                SourceObject object = SourceObject.builder()
+                        .bucket(BUCKET_TEMP)
+                        .object(fileMD5 + &quot;:&quot; + i + &quot;.&quot; + suffix)
+                        .build();
+                sources.add(object);
+            }
+            MINIO_CLIENT.composeObject(
+                    ComposeObjectArgs.builder()
+                            .bucket(BUCKET)
+                            .object(objectName)
+                            .sources(sources)
+                            .build()
+            );
+            log.info(&quot;合并分片成功，访问地址为: {}&quot;,HOST + &quot;/&quot; + BUCKET +  &quot;/&quot; + objectName);
+            return list;
+        } catch (Exception e) {
+            log.error(&quot;合并分片失败&quot;,e);
+        }
+        return null;
+    }
+
+    /**
+     * 创建桶
+     */
+    private static void initBucket() {
+        try{
+            boolean isExist = MINIO_CLIENT.bucketExists(BucketExistsArgs.builder().bucket(BUCKET).build());
+            isExist = isExist &amp;&amp; MINIO_CLIENT.bucketExists(BucketExistsArgs.builder().bucket(BUCKET_TEMP).build());
+            if(!isExist) {
+                MINIO_CLIENT.makeBucket(MakeBucketArgs.builder().bucket(BUCKET).build());
+                MINIO_CLIENT.makeBucket(MakeBucketArgs.builder().bucket(BUCKET_TEMP).build());
+            }
+        } catch (Exception e) {
+            log.warn(&quot;{}：桶创建失败：{}&quot;, Thread.currentThread().getName(), e.getMessage());
+        }
+    }
+
+    /**
+     * 判断指定桶中的文件是否存在
+     *
+     * @param objectName 对象名
+     * @return true 存在，false 不存在
+     */
+    private boolean isExistObject(String objectName){
+        try{
+            MINIO_CLIENT.statObject(StatObjectArgs.builder()
+                    .bucket(MinioFileUtil.BUCKET)
+                    .object(objectName)
+                    .build());
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 获取下载链接
+     * @param path 文件的存储路径 xxx/xxx/
+     * @param name 文件名
+     * @param suffix 文件后缀
+     * @return 下载链接
+     */
+    public String getObjectURL(String path,String name,String suffix){
+        try {
+            return MINIO_CLIENT.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                    .object(path + name + suffix)
+                    .bucket(BUCKET)
+                    .method(Http.Method.GET)
+                    .expiry(15, TimeUnit.MINUTES) //有效期为 15 分钟
+                    .build());
+        } catch (Exception e){
+            log.error(Thread.currentThread().getName() + &quot;：获取下载链接失败!&quot;,e);
+        }
+        return null;
+    }
+}
+</code></pre>
+
+    </div>
+    
+
+    <!--如果启用文章的评论，显示评论逻辑-->
+    
+    
+    
+    
+    
+    
+</div>
+
+
+            <!--页脚内容-->
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy; 2025 - 2026 DZ博客
+            <i class="fa-solid fa-font-awesome fa-fw"></i>
+            <a href= "http://example.com">&commat;dz.cn</a>
+            <br>
+            总访问量 <span id="busuanzi_value_site_pv"></span> 次 | 总访客数 <span id="busuanzi_value_site_uv"></span> 人次
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+        </div>
+
+        <!--图片预览-->
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <!--评论的显示-->
+    
+    
+
+
+
+
+    
+</body>
+</html>
