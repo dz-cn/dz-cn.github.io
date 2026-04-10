@@ -1,13 +1,13 @@
 ---
 title: Minio之分片上传
 tags:
-  - default
+  - Minio分片上传
 description: |
   URL预签名实现分片上传与断点续传
 pinned: 0
 lang: zh
 categories:
-  - default
+  - Minio
 type: post
 wordCount: 570
 charCount: 7649
@@ -16,6 +16,7 @@ vidCount: 0
 wsCount: 5
 cbCount: 4
 readTime: 约5分钟
+abbrlink: 936ece0c
 date: 2026-04-10 11:35:06
 ---
 <!-- toc -->
