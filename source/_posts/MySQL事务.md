@@ -3,7 +3,7 @@ title: MySQL事务
 tags:
   - 事务
 description: |
-  文章缩略，支持 `Markdown` **文档格式**
+  ACID特性、隔离级别与底层实现原理
 pinned: 0
 lang: zh
 categories:

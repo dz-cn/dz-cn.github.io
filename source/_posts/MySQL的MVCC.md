@@ -3,7 +3,7 @@ title: MySQL的MVCC
 tags:
   - MySQL的MVCC
 description: |
-  文章缩略，支持 `Markdown` **文档格式**
+  多版本并发控制原理与ReadView机制
 pinned: 0
 lang: zh
 categories:

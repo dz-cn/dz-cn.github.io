@@ -3,7 +3,7 @@ title: MySQL锁
 tags:
   - MySQL锁
 description: |
-  文章缩略，支持 `Markdown` **文档格式**
+  全局锁、表级锁、行级锁详解
 pinned: 0
 lang: zh
 categories:

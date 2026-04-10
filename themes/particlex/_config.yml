@@ -76,9 +76,13 @@ card:
       一条努力向上的*咸鱼*
   iconLinks:
     github:
-      name: github # 图标名
+      name: at
       theme: solid
       link: https://github.com/dz-cn
+    csdn:
+      name: c
+      theme: solid
+      link: https://blog.csdn.net/practice_warm?spm=1000.2115.3001.5343
 
   friendLinks:
     原作者: https://argvchs.github.io

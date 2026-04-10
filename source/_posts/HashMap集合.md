@@ -3,7 +3,7 @@ title: HashMap集合
 tags:
   - HashMap
 description: |
-  文章缩略，支持 `Markdown` **文档格式**
+  底层结构、扩容机制与源码深度解析
 pinned: 0
 lang: zh
 categories:

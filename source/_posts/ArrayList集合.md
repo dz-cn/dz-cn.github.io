@@ -3,7 +3,7 @@ title: ArrayList集合
 tags:
   - ArrayList
 description: |
-  文章缩略，支持 `Markdown` **文档格式**
+  ArrayList核心原理与使用详解
 pinned: 0
 lang: zh
 categories:

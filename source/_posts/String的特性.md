@@ -3,7 +3,7 @@ title: String的特性
 tags:
   - String
 description: |
-  String 的基本特性以及用法和常考题
+  不可变性、常量池与JDK9优化
 pinned: 0
 lang: zh
 categories:

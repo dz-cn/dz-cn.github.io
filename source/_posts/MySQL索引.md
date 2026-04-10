@@ -3,7 +3,7 @@ title: MySQL索引
 tags:
   - MySQL索引
 description: |
-  文章缩略，支持 `Markdown` **文档格式**
+  B+树结构、索引分类与优化实践
 pinned: 0
 lang: zh
 categories:
