@@ -3,7 +3,7 @@
 <html lang="zh">
 <head><!-- hexo injector head_begin start --><script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script><!-- hexo injector head_begin end -->
     <meta charset="utf-8" />
-    <title>Categories: Minio | DZ博客</title>
+    <title>交换括号问题 | DZ博客</title>
     <meta name="author" content="dz.cn" />
     <meta name="description" content="稳-静-思" />
     <meta name="keywords" content="" />
@@ -47,6 +47,10 @@
 
 
 
+
+    
+    
+    
 
 
 <link rel="stylesheet" href="/css/main.css"/>
@@ -161,59 +165,26 @@
         <!--主体-->
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <!--当前要渲染的内容-->
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        <span>
-            <a href="/categories/Java-%E5%9F%BA%E7%A1%80%E7%AF%87/" style="background: #4dd0e1">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Java 基础篇
-            </a>
+            <div class="article">
+    <!--文章标题-->
+    <div>
+        <h1>交换括号问题</h1>
+    </div>
+
+    <!--每篇文章开头的信息-->
+    <div class="info">
+        <!--日期-->
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/4/11
         </span>
+        <!--判断是否有分类-->
         
-        
-        
-        <span>
-            <a href="/categories/MySQL-%E7%AF%87/" style="background: #006064">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                MySQL 篇
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/Minio/" style="background: #a0522d">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Minio
-            </a>
-        </span>
-        
-        
-        
-        
-        
-        <span>
-            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="background: #006064">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                操作系统
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E7%BC%96%E7%A8%8B%E9%97%AE%E9%A2%98/" style="background: #00bcd4">
+        <span class="category">
+            
+            <a href="/categories/%E7%BC%96%E7%A8%8B%E9%97%AE%E9%A2%98/" style="color: #00bcd4">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
@@ -221,46 +192,100 @@
             </a>
         </span>
         
+        <!--判断是否有标签-->
         
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%89%9B%E5%AE%A2%E9%A2%98/" style="color: #0288d1">
+                    牛客题
+                </a>
+            </span>
+            
+        </span>
+        
+
+        <!--本文的阅读量-->
+        <span style="margin-right: 15px">
+            <span class="icon">
+                <i class="fa-solid fa-eye"></i>
+            </span>
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+
+        <br>
+        <!--本文的字数统计-->
+        <span style="margin-right: 15px;">
+            <span class="icon">
+                <i class="fa-solid fa-pen"></i>
+            </span>
+            <span>658 字 | 1 代码块</span>
+        </span>
+    </div>
+
+    <!--加密配置，如果启用加密，这执行加密逻辑-->
+    
+    <div class="content" v-pre>
+        <!-- toc -->
+
+
+
+<!-- tocstop -->
+
+<p>由于题目要求括号的数量是偶数，因此简化了解题过程。<br>原题连接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/questionTerminal/fc5c99ce92aa4d429f68783e3e756a77?page=1&onlyReference=false">交换括号</a></p>
+<pre><code class="language-java">import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t -- &gt; 0) {
+            int n = sc.nextInt();
+            String s = sc.next();
+
+            System.out.println(minSwap(s));
+
+        }
+    }
+
+    public static long minSwap(String s) {
+        char[] chs = s.toCharArray();
+        // 最终答案
+        long ans = 0;
+        // 临时记录变量
+        long res = 0;
+        // 遍历所有的字符
+        for (char c : chs) {
+            // 当发现是 &#39;)&#39; 时，res - 1，表示，&#39;)&#39; 括号多了一个
+            if (c == &#39;)&#39;) {
+                res--;
+            } else { // 当发现时 &#39;(&#39; 时
+                // 查看以下，res 是否小于 0，如果是，则表明前面还有未匹配的 &#39;)&#39;，那么就将这个 &#39;)&#39;，交换到最左边。也就是：)))( -&gt; ()))
+                if (res &lt; 0)
+                    ans -= res;
+                // 记录 &#39;(&#39;
+                res++;
+            }
+        }
+        return ans;
+    }
+}
+</code></pre>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2026/4/10</div>
-            <a href="/posts/936ece0c.html">
-                <h3>Minio之分片上传</h3>
-            </a>
-            <div class="info">
-                
-                    
-                <span class="category">
-                    <a href="/categories/Minio/" style="color: #a0522d">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        Minio
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/Minio%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" style="color: #0288d1">
-                            Minio分片上传
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+
+    <!--如果启用文章的评论，显示评论逻辑-->
+    
+    
+    
+    
+    
     
 </div>
 
@@ -295,6 +320,12 @@
     </div>
     <script src="/js/main.js"></script>
     <!--评论的显示-->
+    
+    
+
+
+
+
     
 </body>
 </html>
